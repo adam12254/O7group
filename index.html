@@ -1682,6 +1682,39 @@
   }
   button.submit-wa:hover { background: #1da851; transform: translateY(-2px); }
   button.submit-wa svg { width: 16px; height: 16px; fill: #fff; flex-shrink: 0; }
+
+  /* ===== Language Switcher ===== */
+  .lang-switcher { position: relative; display: flex; align-items: center; }
+  .lang-btn {
+    background: none; border: 1.5px solid rgba(247,241,231,0.55);
+    color: var(--cream); font-family: var(--sans); font-size: 10.5px;
+    font-weight: 700; letter-spacing: 0.14em; padding: 5px 10px;
+    cursor: pointer; border-radius: 4px; transition: border-color 0.2s, opacity 0.2s;
+    line-height: 1;
+  }
+  .lang-btn:hover { border-color: var(--copper); color: var(--copper); }
+  nav.topnav:not(.on-dark) .lang-btn { border-color: rgba(16,24,40,0.4); color: var(--ink); }
+  nav.topnav:not(.on-dark) .lang-btn:hover { border-color: var(--copper); color: var(--copper); }
+  .lang-panel {
+    position: absolute; top: calc(100% + 10px); right: 0;
+    background: #0f1923; border: 1px solid rgba(212,183,150,0.22);
+    border-radius: 8px; padding: 6px; display: flex; flex-direction: column; gap: 1px;
+    z-index: 9999; min-width: 144px;
+    opacity: 0; pointer-events: none;
+    transform: translateY(-6px); transition: opacity 0.18s, transform 0.18s;
+  }
+  .lang-panel.open { opacity: 1; pointer-events: all; transform: translateY(0); }
+  .lang-panel button {
+    background: none; border: none; color: var(--cream); font-family: var(--sans);
+    font-size: 11px; font-weight: 600; letter-spacing: 0.1em; padding: 7px 12px;
+    cursor: pointer; text-align: left; border-radius: 5px;
+    opacity: 0.6; transition: background 0.15s, opacity 0.15s; width: 100%;
+  }
+  .lang-panel button:hover, .lang-panel button.lang-active-opt {
+    background: rgba(212,183,150,0.13); opacity: 1;
+  }
+  @media (max-width: 767px) { .lang-switcher { display: none; } }
+
 </style>
 </head>
 <body>
@@ -1728,6 +1761,16 @@
     <li><a href="#why" data-link>Why Us</a></li>
   </ul>
   <a href="#contact" class="nav-cta" data-hover>Send Us A Request</a>
+  <div class="lang-switcher" id="langSwitcher">
+    <button class="lang-btn" id="langBtn" aria-label="Select language" onclick="toggleLangPanel()">EN</button>
+    <div class="lang-panel" id="langPanel">
+      <button onclick="changeLang('en')" data-lang="en">EN &nbsp;·&nbsp; English</button>
+      <button onclick="changeLang('de')" data-lang="de">DE &nbsp;·&nbsp; Deutsch</button>
+      <button onclick="changeLang('ru')" data-lang="ru">RU &nbsp;·&nbsp; Русский</button>
+      <button onclick="changeLang('ar')" data-lang="ar">AR &nbsp;·&nbsp; العربية</button>
+      <button onclick="changeLang('es')" data-lang="es">ES &nbsp;·&nbsp; Español</button>
+    </div>
+  </div>
   <button class="menu-toggle" id="menuToggle" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
@@ -2881,6 +2924,715 @@
 
     render('');
   })();
+
+/* ===== i18n ===== */
+const I18N = {
+  en: {
+    'nav.home':'Home','nav.firm':'The Firm','nav.legal':'Legal',
+    'nav.business':'Business','nav.design_dock':'Design',
+    'nav.design_growth':'Design &amp; Growth','nav.why':'Why Us',
+    'nav.contact':'Contact','nav.cta':'Send Us A Request',
+    'hero.vmark':'EST · DUBAI · 6+ YEARS AND COUNTING',
+    'hero.eyebrow':'Legal, Corporate, Business, Management, Marketing and Design · Dubai, UAE',
+    'hero.tagline':'A UAE-based solutions house guiding entrepreneurs, corporations and investors through every chapter of their commercial journey — from formation and compliance to growth and brand.',
+    'hero.p1_label':'LEGAL SERVICES',
+    'hero.p2_label':'BUSINESS &amp; CORPORATE SOLUTIONS',
+    'hero.p3_label':'MANAGEMENT, DESIGN &amp; MARKETING',
+    'hero.scroll':'Scroll',
+    'hero.title_html':'<span class="word in"><span>Empowering</span></span><br><span class="word in"><span>your business,</span></span><br><span class="word in"><span class="accent">every</span></span> <span class="word in"><span class="accent">step</span></span><br><span class="word in"><span>of the</span></span> <span class="word in"><span>way.</span></span>',
+    'about.label':'The Firm','about.eyebrow':'About O7 Group',
+    'about.h2_html':'A solutions house<br>built around<br><span class="it">your ambition.</span>',
+    'about.lede':'We exist where regulation, strategy and execution meet — turning the complexity of doing business in the UAE into a quiet, deliberate advantage for the people we serve.',
+    'about.who':'Who we are · What we do',
+    'about.h3_html':'An end-to-end advisory and execution partner — built to make doing business in the UAE <span class="it">simple.</span>',
+    'about.p1':'<strong>O7 Group</strong> is a UAE-based solutions provider helping entrepreneurs, corporations and investors establish, manage and grow their businesses with confidence. We bring together legal advisory, compliance, company formation, project management, design and digital marketing under a single, considered roof — so that founders and operators can focus on what only they can do.',
+    'about.p2':'From legal consultation and contract support to compliance assurance, company set-up, business analysis, project execution and brand growth — we assemble the right discipline at the right moment, delivered with the precision the UAE market expects and the warmth our clients return for.',
+    'about.caption':'Dubai · UAE',
+    'about.stat1':'Specialist<br>services','about.stat2':'Practice<br>pillars',
+    'about.stat3':'Roof,<br>end to end','about.stat4':'Mainland<br>&amp; free zones',
+    'p1.banner_label':'Pillar I · Services 01 — 06','p1.title':'Legal Services',
+    'p1.label':'The Mandate',
+    'p1.desc':'The legal craft that protects your enterprise — local expertise, UAE-aligned documentation and considered counsel across the full arc of corporate life, from formation to dispute resolution.',
+    's01.tag':'Counsel &amp; Compliance','s01.title':'UAE Legal Advisory &amp; Corporate Compliance',
+    's01.desc':'Trusted legal consultation, contract drafting and UAE regulatory support for businesses, investors and entrepreneurs operating across mainland and free zones.',
+    's02.tag':'Contracts','s02.title':'Document Drafting &amp; Review',
+    's02.desc':'Professionally prepared contracts and agreements aligned with UAE regulations — confidence-building documentation for every deal.',
+    's03.tag':'Resolution','s03.title':'Negotiation Support',
+    's03.desc':'Skilled representation that finds win-win outcomes — preserving commercial relationships and avoiding the cost of the courtroom.',
+    's04.tag':'Compliance','s04.title':'Compliance Assurance',
+    's04.desc':'Keeping your company aligned with UAE government requirements — we manage filings and brief you on every change in the regulatory picture.',
+    's05.tag':'People','s05.title':'Employment Law Guidance',
+    's05.desc':'Advisory across UAE labour law, employee rights, HR compliance and disputes — ensuring smooth employer–employee relations at every level.',
+    's06.tag':'Formation','s06.title':'Business Setup, Licensing &amp; Company Formation',
+    's06.desc':'Fast and compliant UAE business setup services including trade licenses, company incorporation, PRO services and operational structuring.',
+    'p1.quote_html':'"The right counsel, at the right moment, shapes <em>the entire arc</em> of a company\'s story."',
+    'p1.attr':'O7 Group · Legal Practice',
+    'p2.banner_label':'Pillar II · Services 07 — 09',
+    'p2.title_html':'Business &amp;<br>Corporate Solutions',
+    'p2.label':'The Foundation',
+    'p2.desc':'From the first sketch of an idea to the moment a company is trading in confidence — strategy, structure and clear-eyed analysis brought together to give every venture a deliberate beginning.',
+    's07.tag':'Strategy','s07.title':'Corporate Strategy &amp; Business Consulting',
+    's07.desc':'Practical business consultancy focused on growth, market entry, operational planning and scalable corporate structures for UAE enterprises.',
+    's08.tag':'Visas &amp; Government','s08.title':'Golden Visa &amp; Government Services',
+    's08.desc':'End-to-end support for UAE Golden Visas, investor visas, approvals, attestations and government liaison services across Dubai and the UAE.',
+    's09.tag':'Insight &amp; Decision','s09.title':'Business &amp; Data Analysis',
+    's09.desc':'Analytics-led insight to optimise operations, forecast market trends and inform sharper decisions — translating data into strategy.',
+    'p2.quote_html':'"Sound structure quietly compounds — <em>every deliberate beginning</em> becomes a more resilient enterprise."',
+    'p2.attr':'O7 Group · Corporate Solutions',
+    'p3.banner_label':'Pillar III · Services 10 — 12',
+    'p3.title_html':'Management, Design<br>&amp; Marketing',
+    'p3.label':'The Execution',
+    'p3.desc':'Execution disciplines that turn a sound business into a memorable one — projects delivered with discipline, spaces shaped with intention, audiences engaged with craft.',
+    's10.tag':'Delivery','s10.title':'Project Management',
+    's10.desc':'End-to-end project planning, execution and management consultancy tailored to UAE business environments — ensuring every milestone is met.',
+    's11.tag':'Space &amp; Identity','s11.title':'Fitting Out, Design &amp; Execution',
+    's11.desc':'Transforming spaces with creative, functional and modern design tailored to reflect your brand identity — interiors that work as hard as you do.',
+    's12.tag':'Brand &amp; Growth','s12.title':'Digital Marketing &amp; Brand Growth',
+    's12.desc':'Performance-driven digital marketing, branding and advertising strategies designed to increase visibility, generate leads and accelerate business growth.',
+    'p3.quote_html':'"Memorable enterprises are <em>made, not declared</em> — assembled from a thousand considered choices."',
+    'p3.attr':'O7 Group · Design &amp; Growth',
+    'why.label':'In Closing','why.eyebrow':'Why O7 Group',
+    'why.h2_html':'Four reasons<br>clients return —<br><span class="it">and refer.</span>',
+    'why.lede':'The promise behind every engagement is the same: local mastery of the UAE, international standards of delivery, and one accountable partner across the whole.',
+    'why.r1_title':'UAE expertise that runs deep.',
+    'why.r1_desc':'Strong command of local laws, compliance and government regulations — built from working the ground, not reading about it.',
+    'why.r2_title':'End-to-end, under one roof.',
+    'why.r2_desc':'From legal support to business growth — strategy, execution and aftercare in a single, accountable engagement.',
+    'why.r3_title':'Local specialists, international standards.',
+    'why.r3_desc':'A team of UAE professionals operating to the disciplines and quality benchmarks of global practice.',
+    'why.r4_title':'Reliable. Innovative. Results-driven.',
+    'why.r4_desc':'A partner that turns up, thinks ahead, and is measured by what actually moves your business forward.',
+    'contact.eyebrow':'Engage',
+    'contact.h2_html':'Let\'s build<br><span class="it">something deliberate.</span>',
+    'contact.lede':'Tell us what you\'re working on. We respond within one business day, with the right discipline brought to the conversation.',
+    'contact.addr_label':'Address','contact.tel_label':'Telephone','contact.email_label':'Email',
+    'form.name_label':'Name','form.name_ph':'Your full name',
+    'form.company_label':'Company','form.company_ph':'Optional',
+    'form.email_label':'Email','form.email_ph':'you@company.com',
+    'form.service_label':'Service','form.search_ph':'Search service…',
+    'form.phone_label':'Phone Number','form.phone_ph':'Enter your phone number',
+    'form.search_country_ph':'Search country or code…',
+    'form.date_label':'Preferred Meeting Date',
+    'form.time_label':'Preferred Meeting Time',
+    'form.time_slot':'— Select a time slot —',
+    'form.message_label':'Message',
+    'form.message_ph':'Tell us a little about what you\'re building.',
+    'form.submit':'Submit The Request','form.whatsapp':'Send via WhatsApp',
+    'form.success_h':'Thank you.',
+    'form.success_p':'Your message has reached us. We\'ll respond shortly.',
+    'footer.text':'© 2026 O7 Group · Dubai · UAE',
+    'footer.tagline':'— Empowering your business, every step of the way.',
+    'footer.years':'6 YEARS IN UAE','fab.request':'Send Us A Request',
+  },
+
+  de: {
+    'nav.home':'Startseite','nav.firm':'Die Kanzlei','nav.legal':'Rechtliches',
+    'nav.business':'Business','nav.design_dock':'Design',
+    'nav.design_growth':'Design &amp; Wachstum','nav.why':'Warum wir',
+    'nav.contact':'Kontakt','nav.cta':'Anfrage stellen',
+    'hero.vmark':'GEGR. · DUBAI · 6+ JAHRE IM EINSATZ',
+    'hero.eyebrow':'Recht, Unternehmen, Business, Management, Marketing und Design · Dubai, VAE',
+    'hero.tagline':'Eine in den VAE ansässige Lösungsgesellschaft, die Unternehmer, Konzerne und Investoren auf ihrem gesamten geschäftlichen Weg begleitet — von der Gründung und Compliance bis hin zu Wachstum und Markenaufbau.',
+    'hero.p1_label':'RECHTSDIENSTLEISTUNGEN',
+    'hero.p2_label':'BUSINESS- &amp; UNTERNEHMENSLÖSUNGEN',
+    'hero.p3_label':'MANAGEMENT, DESIGN &amp; MARKETING',
+    'hero.scroll':'Scrollen',
+    'hero.title_html':'<span class="word in"><span>Wir stärken</span></span><br><span class="word in"><span>Ihr Unternehmen –</span></span><br><span class="word in"><span class="accent">auf jedem</span></span> <span class="word in"><span class="accent">Schritt</span></span><br><span class="word in"><span>des Weges.</span></span>',
+    'about.label':'Die Kanzlei','about.eyebrow':'Über O7 Group',
+    'about.h2_html':'Ein Lösungsanbieter,<br>aufgebaut rund um<br><span class="it">Ihren Ehrgeiz.</span>',
+    'about.lede':'Wir sind dort, wo Regulierung, Strategie und Umsetzung aufeinandertreffen — und verwandeln die Komplexität des Wirtschaftens in den VAE in einen stillen, gezielten Vorteil für unsere Mandanten.',
+    'about.who':'Wer wir sind · Was wir tun',
+    'about.h3_html':'Ein umfassender Beratungs- und Umsetzungspartner — damit Ihr Business in den VAE <span class="it">einfach</span> funktioniert.',
+    'about.p1':'<strong>O7 Group</strong> ist ein in den VAE ansässiger Lösungsanbieter, der Unternehmern, Konzernen und Investoren dabei hilft, ihr Geschäft sicher aufzubauen, zu verwalten und zu wachsen. Wir vereinen Rechtsberatung, Compliance, Unternehmensgründung, Projektmanagement, Design und digitales Marketing unter einem Dach — damit Gründer und Betreiber sich auf das konzentrieren können, was nur sie tun können.',
+    'about.p2':'Von rechtlicher Beratung und Vertragsunterstützung bis hin zu Compliance-Sicherung, Unternehmensgründung, Business-Analyse, Projektdurchführung und Markenwachstum — wir bringen die richtige Disziplin zum richtigen Zeitpunkt zusammen.',
+    'about.caption':'Dubai · VAE',
+    'about.stat1':'Spezialisierte<br>Dienstleistungen','about.stat2':'Praxis-<br>säulen',
+    'about.stat3':'Unter einem<br>Dach','about.stat4':'Festland<br>&amp; Freizonen',
+    'p1.banner_label':'Säule I · Leistungen 01 — 06','p1.title':'Rechtsdienstleistungen',
+    'p1.label':'Das Mandat',
+    'p1.desc':'Die rechtliche Expertise, die Ihr Unternehmen schützt — lokales Know-how, VAE-konforme Dokumentation und durchdachte Beratung über den gesamten Lebenszyklus eines Unternehmens, von der Gründung bis zur Streitbeilegung.',
+    's01.tag':'Beratung &amp; Compliance','s01.title':'VAE-Rechtsberatung &amp; Corporate Compliance',
+    's01.desc':'Vertrauenswürdige Rechtsberatung, Vertragsentwürfe und regulatorische Unterstützung in den VAE für Unternehmen, Investoren und Unternehmer auf dem Festland und in Freizonen.',
+    's02.tag':'Verträge','s02.title':'Vertragsentwurf &amp; -prüfung',
+    's02.desc':'Professionell erstellte Verträge und Vereinbarungen gemäß VAE-Recht — vertrauensbildende Dokumentation für jeden Geschäftsabschluss.',
+    's03.tag':'Streitbeilegung','s03.title':'Verhandlungsunterstützung',
+    's03.desc':'Kompetente Vertretung zur Erzielung von Win-Win-Ergebnissen — Schonung von Geschäftsbeziehungen und Vermeidung von Gerichtskosten.',
+    's04.tag':'Compliance','s04.title':'Compliance-Sicherung',
+    's04.desc':'Wir halten Ihr Unternehmen konform mit VAE-Behördenanforderungen — Verwaltung von Einreichungen und laufende Information über regulatorische Änderungen.',
+    's05.tag':'Personal','s05.title':'Arbeitsrechtliche Beratung',
+    's05.desc':'Beratung zu UAE-Arbeitsrecht, Arbeitnehmerrechten, HR-Compliance und Streitigkeiten — für reibungslose Arbeitsverhältnisse auf allen Ebenen.',
+    's06.tag':'Gründung','s06.title':'Unternehmensaufbau, Lizenzierung &amp; Gründung',
+    's06.desc':'Schnelle und konforme Unternehmenseinrichtung in den VAE einschließlich Handelslizenzen, Gesellschaftsgründung, PRO-Services und betrieblicher Strukturierung.',
+    'p1.quote_html':'„Der richtige Rat zum richtigen Zeitpunkt prägt <em>den gesamten Verlauf</em> der Geschichte eines Unternehmens."',
+    'p1.attr':'O7 Group · Rechtspraxis',
+    'p2.banner_label':'Säule II · Leistungen 07 — 09',
+    'p2.title_html':'Business &amp;<br>Unternehmenslösungen',
+    'p2.label':'Das Fundament',
+    'p2.desc':'Vom ersten Entwurf einer Idee bis zu dem Moment, in dem ein Unternehmen sicher handelt — Strategie, Struktur und klare Analyse vereint, um jedem Vorhaben einen bewussten Anfang zu geben.',
+    's07.tag':'Strategie','s07.title':'Unternehmensstrategie &amp; Business Consulting',
+    's07.desc':'Praxisorientierte Unternehmensberatung mit Fokus auf Wachstum, Markteintritt, operative Planung und skalierbare Unternehmensstrukturen für VAE-Unternehmen.',
+    's08.tag':'Visa &amp; Behörden','s08.title':'Golden Visa &amp; Behördendienstleistungen',
+    's08.desc':'Umfassende Unterstützung für VAE Golden Visas, Investorenvisas, Genehmigungen, Beglaubigungen und Behördenkontakte in Dubai und den VAE.',
+    's09.tag':'Analyse &amp; Entscheidung','s09.title':'Business- &amp; Datenanalyse',
+    's09.desc':'Analysegesteuerte Erkenntnisse zur Optimierung von Abläufen, Prognose von Markttrends und fundiertere Entscheidungen — Daten in Strategie umgewandelt.',
+    'p2.quote_html':'„Solide Struktur wächst leise — <em>jeder bewusste Anfang</em> wird zu einem widerstandsfähigeren Unternehmen."',
+    'p2.attr':'O7 Group · Unternehmenslösungen',
+    'p3.banner_label':'Säule III · Leistungen 10 — 12',
+    'p3.title_html':'Management, Design<br>&amp; Marketing',
+    'p3.label':'Die Umsetzung',
+    'p3.desc':'Ausführungsdisziplinen, die ein solides Unternehmen unvergesslich machen — Projekte mit Sorgfalt geliefert, Räume mit Intention gestaltet, Zielgruppen mit Handwerk angesprochen.',
+    's10.tag':'Lieferung','s10.title':'Projektmanagement',
+    's10.desc':'Ganzheitliche Projektplanung, -ausführung und Managementberatung zugeschnitten auf VAE-Geschäftsumgebungen — damit jeder Meilenstein eingehalten wird.',
+    's11.tag':'Raum &amp; Identität','s11.title':'Innenausbau, Design &amp; Ausführung',
+    's11.desc':'Räume mit kreativer, funktionaler und moderner Gestaltung transformieren, die Ihre Markenidentität widerspiegelt — Interieurs, die so hart arbeiten wie Sie.',
+    's12.tag':'Marke &amp; Wachstum','s12.title':'Digitales Marketing &amp; Markenwachstum',
+    's12.desc':'Leistungsstarke digitale Marketing-, Branding- und Werbestrategien, die Sichtbarkeit steigern, Leads generieren und Geschäftswachstum beschleunigen.',
+    'p3.quote_html':'„Unvergessliche Unternehmen werden <em>gemacht, nicht erklärt</em> — aus tausend durchdachten Entscheidungen zusammengesetzt."',
+    'p3.attr':'O7 Group · Design &amp; Wachstum',
+    'why.label':'Zum Abschluss','why.eyebrow':'Warum O7 Group',
+    'why.h2_html':'Vier Gründe,<br>warum Mandanten wiederkommen —<br><span class="it">und weiterempfehlen.</span>',
+    'why.lede':'Das Versprechen hinter jedem Auftrag ist dasselbe: lokale Beherrschung der VAE, internationale Lieferstandards und ein verantwortlicher Partner für das Gesamte.',
+    'why.r1_title':'VAE-Expertise, die tief verwurzelt ist.',
+    'why.r1_desc':'Starke Beherrschung lokaler Gesetze, Compliance und Behördenvorschriften — aufgebaut durch Praxiserfahrung, nicht aus Büchern.',
+    'why.r2_title':'Von A bis Z, unter einem Dach.',
+    'why.r2_desc':'Von Rechtsunterstützung bis Unternehmenswachstum — Strategie, Umsetzung und Nachbetreuung in einem verantwortlichen Engagement.',
+    'why.r3_title':'Lokale Spezialisten, internationale Standards.',
+    'why.r3_desc':'Ein Team aus VAE-Fachleuten, das nach den Disziplinen und Qualitätsmaßstäben globaler Praxis arbeitet.',
+    'why.r4_title':'Zuverlässig. Innovativ. Ergebnisorientiert.',
+    'why.r4_desc':'Ein Partner, der auftaucht, vorausdenkt und daran gemessen wird, was Ihr Unternehmen tatsächlich voranbringt.',
+    'contact.eyebrow':'Kontakt',
+    'contact.h2_html':'Lassen Sie uns gemeinsam<br><span class="it">etwas Durchdachtes aufbauen.</span>',
+    'contact.lede':'Erzählen Sie uns, woran Sie arbeiten. Wir antworten innerhalb eines Werktages mit der richtigen Disziplin für das Gespräch.',
+    'contact.addr_label':'Adresse','contact.tel_label':'Telefon','contact.email_label':'E-Mail',
+    'form.name_label':'Name','form.name_ph':'Ihr vollständiger Name',
+    'form.company_label':'Unternehmen','form.company_ph':'Optional',
+    'form.email_label':'E-Mail','form.email_ph':'sie@unternehmen.com',
+    'form.service_label':'Leistung','form.search_ph':'Leistung suchen…',
+    'form.phone_label':'Telefonnummer','form.phone_ph':'Geben Sie Ihre Telefonnummer ein',
+    'form.search_country_ph':'Land oder Code suchen…',
+    'form.date_label':'Bevorzugtes Besprechungsdatum',
+    'form.time_label':'Bevorzugte Besprechungszeit',
+    'form.time_slot':'— Zeitfenster wählen —',
+    'form.message_label':'Nachricht',
+    'form.message_ph':'Erzählen Sie uns ein wenig davon, was Sie aufbauen.',
+    'form.submit':'Anfrage absenden','form.whatsapp':'Per WhatsApp senden',
+    'form.success_h':'Vielen Dank.',
+    'form.success_p':'Ihre Nachricht ist bei uns angekommen. Wir antworten in Kürze.',
+    'footer.text':'© 2026 O7 Group · Dubai · VAE',
+    'footer.tagline':'— Wir stärken Ihr Unternehmen auf jedem Schritt des Weges.',
+    'footer.years':'6 JAHRE IN DEN VAE','fab.request':'Anfrage stellen',
+  },
+
+  ru: {
+    'nav.home':'Главная','nav.firm':'О компании','nav.legal':'Юридические',
+    'nav.business':'Бизнес','nav.design_dock':'Дизайн',
+    'nav.design_growth':'Дизайн &amp; рост','nav.why':'Почему мы',
+    'nav.contact':'Контакты','nav.cta':'Отправить запрос',
+    'hero.vmark':'ОСН. · ДУБАЙ · 6+ ЛЕТ УСПЕШНОЙ РАБОТЫ',
+    'hero.eyebrow':'Правовые, корпоративные, бизнес, управленческие, маркетинговые и дизайнерские услуги · Дубай, ОАЭ',
+    'hero.tagline':'Решения для бизнеса в ОАЭ — помогаем предпринимателям, корпорациям и инвесторам на каждом этапе их коммерческого пути: от регистрации и соответствия требованиям до роста и развития бренда.',
+    'hero.p1_label':'ЮРИДИЧЕСКИЕ УСЛУГИ',
+    'hero.p2_label':'БИЗНЕС И КОРПОРАТИВНЫЕ РЕШЕНИЯ',
+    'hero.p3_label':'УПРАВЛЕНИЕ, ДИЗАЙН И МАРКЕТИНГ',
+    'hero.scroll':'Прокрутить',
+    'hero.title_html':'<span class="word in"><span>Поддерживаем</span></span><br><span class="word in"><span>ваш бизнес</span></span><br><span class="word in"><span class="accent">на каждом</span></span><br><span class="word in"><span class="accent">шагу.</span></span>',
+    'about.label':'О компании','about.eyebrow':'О группе O7',
+    'about.h2_html':'Дом решений,<br>созданный вокруг<br><span class="it">ваших амбиций.</span>',
+    'about.lede':'Мы находимся там, где регулирование, стратегия и реализация пересекаются — превращая сложности ведения бизнеса в ОАЭ в тихое, целенаправленное преимущество для наших клиентов.',
+    'about.who':'Кто мы · Что мы делаем',
+    'about.h3_html':'Комплексный консультационный и исполнительный партнёр — чтобы ведение бизнеса в ОАЭ было <span class="it">простым.</span>',
+    'about.p1':'<strong>O7 Group</strong> — провайдер решений на базе ОАЭ, помогающий предпринимателям, корпорациям и инвесторам уверенно создавать, управлять и развивать бизнес. Мы объединяем юридическое консультирование, соответствие требованиям, регистрацию компаний, управление проектами, дизайн и цифровой маркетинг под одной крышей — чтобы основатели и операторы могли сосредоточиться на том, что умеют только они.',
+    'about.p2':'От юридических консультаций и поддержки договоров до обеспечения соответствия, регистрации компаний, бизнес-анализа, реализации проектов и развития бренда — мы собираем нужную экспертизу в нужный момент.',
+    'about.caption':'Дубай · ОАЭ',
+    'about.stat1':'Специализированных<br>услуг','about.stat2':'Практических<br>направлений',
+    'about.stat3':'Под одной<br>крышей','about.stat4':'Материк<br>&amp; свободные зоны',
+    'p1.banner_label':'Раздел I · Услуги 01 — 06','p1.title':'Юридические услуги',
+    'p1.label':'Мандат',
+    'p1.desc':'Правовое мастерство, защищающее ваше предприятие — местная экспертиза, документация в соответствии с законодательством ОАЭ и взвешенные консультации на протяжении всего жизненного цикла компании.',
+    's01.tag':'Консультации &amp; соответствие','s01.title':'Юридическое консультирование в ОАЭ &amp; корпоративное соответствие',
+    's01.desc':'Надёжные юридические консультации, составление договоров и поддержка в соблюдении законодательства ОАЭ для бизнеса, инвесторов и предпринимателей.',
+    's02.tag':'Договоры','s02.title':'Составление &amp; проверка документов',
+    's02.desc':'Профессионально подготовленные договоры и соглашения, соответствующие законодательству ОАЭ — надёжная документация для каждой сделки.',
+    's03.tag':'Урегулирование','s03.title':'Поддержка переговоров',
+    's03.desc':'Квалифицированное представительство для достижения взаимовыгодных результатов — сохранение деловых отношений и избежание судебных издержек.',
+    's04.tag':'Соответствие','s04.title':'Обеспечение соответствия',
+    's04.desc':'Поддержание соответствия вашей компании требованиям государственных органов ОАЭ — управление подачей документов и информирование о всех регуляторных изменениях.',
+    's05.tag':'Персонал','s05.title':'Консультации по трудовому праву',
+    's05.desc':'Консультации по трудовому законодательству ОАЭ, правам работников, HR-комплаенсу и спорам — для гармоничных трудовых отношений на всех уровнях.',
+    's06.tag':'Регистрация','s06.title':'Открытие бизнеса, лицензирование &amp; регистрация компании',
+    's06.desc':'Быстрое и соответствующее нормам открытие бизнеса в ОАЭ: торговые лицензии, регистрация компаний, PRO-услуги и операционное структурирование.',
+    'p1.quote_html':'«Правильный совет в правильный момент определяет <em>весь путь</em> компании.»',
+    'p1.attr':'O7 Group · Юридическая практика',
+    'p2.banner_label':'Раздел II · Услуги 07 — 09',
+    'p2.title_html':'Бизнес<br>и корпоративные решения',
+    'p2.label':'Фундамент',
+    'p2.desc':'От первого наброска идеи до момента, когда компания работает уверенно — стратегия, структура и чёткий анализ, чтобы дать каждому предприятию осознанное начало.',
+    's07.tag':'Стратегия','s07.title':'Корпоративная стратегия &amp; бизнес-консалтинг',
+    's07.desc':'Практический бизнес-консалтинг, ориентированный на рост, выход на рынок, операционное планирование и масштабируемые корпоративные структуры для компаний в ОАЭ.',
+    's08.tag':'Визы &amp; госуслуги','s08.title':'Золотая виза &amp; государственные услуги',
+    's08.desc':'Комплексная поддержка по программе Golden Visa ОАЭ, инвесторским визам, разрешениям, нотариальному заверению и взаимодействию с государственными органами.',
+    's09.tag':'Аналитика &amp; решения','s09.title':'Бизнес-анализ &amp; аналитика данных',
+    's09.desc':'Аналитические данные для оптимизации операций, прогнозирования рыночных тенденций и взвешенных решений — превращение данных в стратегию.',
+    'p2.quote_html':'«Прочная структура тихо накапливается — <em>каждое осознанное начало</em> становится более устойчивым предприятием.»',
+    'p2.attr':'O7 Group · Корпоративные решения',
+    'p3.banner_label':'Раздел III · Услуги 10 — 12',
+    'p3.title_html':'Управление, дизайн<br>и маркетинг',
+    'p3.label':'Реализация',
+    'p3.desc':'Дисциплины исполнения, превращающие звучный бизнес в запоминающийся — проекты с чёткостью, пространства с намерением, аудитории с мастерством.',
+    's10.tag':'Реализация','s10.title':'Управление проектами',
+    's10.desc':'Комплексное планирование, исполнение и управленческий консалтинг, адаптированные к бизнес-среде ОАЭ — чтобы каждый этап был достигнут.',
+    's11.tag':'Пространство &amp; идентичность','s11.title':'Отделка, дизайн &amp; реализация',
+    's11.desc':'Преобразование пространств с помощью креативного, функционального и современного дизайна, отражающего вашу корпоративную идентичность.',
+    's12.tag':'Бренд &amp; рост','s12.title':'Цифровой маркетинг &amp; рост бренда',
+    's12.desc':'Эффективные стратегии цифрового маркетинга, брендинга и рекламы для повышения узнаваемости, привлечения лидов и ускорения роста бизнеса.',
+    'p3.quote_html':'«Запоминающиеся предприятия <em>создаются, а не провозглашаются</em> — они собраны из тысячи обдуманных решений.»',
+    'p3.attr':'O7 Group · Дизайн &amp; рост',
+    'why.label':'В заключение','why.eyebrow':'Почему O7 Group',
+    'why.h2_html':'Четыре причины,<br>почему клиенты возвращаются —<br><span class="it">и рекомендуют нас.</span>',
+    'why.lede':'Обещание за каждым сотрудничеством одно: глубокое знание ОАЭ, международные стандарты работы и единый ответственный партнёр для всего.',
+    'why.r1_title':'Глубокая экспертиза в ОАЭ.',
+    'why.r1_desc':'Сильные знания местного законодательства, соответствия и государственных норм — накопленные на практике, а не из книг.',
+    'why.r2_title':'Комплексно, под одной крышей.',
+    'why.r2_desc':'От юридической поддержки до роста бизнеса — стратегия, реализация и сопровождение в рамках единого ответственного сотрудничества.',
+    'why.r3_title':'Местные специалисты, международные стандарты.',
+    'why.r3_desc':'Команда профессионалов ОАЭ, работающая по дисциплинам и качественным показателям мировой практики.',
+    'why.r4_title':'Надёжно. Инновационно. Результативно.',
+    'why.r4_desc':'Партнёр, который приходит вовремя, думает наперёд и оценивается по тому, что реально продвигает ваш бизнес вперёд.',
+    'contact.eyebrow':'Связаться',
+    'contact.h2_html':'Давайте создадим<br><span class="it">что-то осмысленное.</span>',
+    'contact.lede':'Расскажите нам, над чем вы работаете. Мы ответим в течение одного рабочего дня с нужной экспертизой для разговора.',
+    'contact.addr_label':'Адрес','contact.tel_label':'Телефон','contact.email_label':'Электронная почта',
+    'form.name_label':'Имя','form.name_ph':'Ваше полное имя',
+    'form.company_label':'Компания','form.company_ph':'Необязательно',
+    'form.email_label':'Электронная почта','form.email_ph':'вы@компания.com',
+    'form.service_label':'Услуга','form.search_ph':'Поиск услуги…',
+    'form.phone_label':'Номер телефона','form.phone_ph':'Введите ваш номер телефона',
+    'form.search_country_ph':'Поиск страны или кода…',
+    'form.date_label':'Предпочтительная дата встречи',
+    'form.time_label':'Предпочтительное время встречи',
+    'form.time_slot':'— Выберите временной слот —',
+    'form.message_label':'Сообщение',
+    'form.message_ph':'Расскажите немного о том, что вы создаёте.',
+    'form.submit':'Отправить запрос','form.whatsapp':'Отправить через WhatsApp',
+    'form.success_h':'Спасибо.',
+    'form.success_p':'Ваше сообщение получено. Мы ответим в ближайшее время.',
+    'footer.text':'© 2026 O7 Group · Дубай · ОАЭ',
+    'footer.tagline':'— Поддерживаем ваш бизнес на каждом шагу.',
+    'footer.years':'6 ЛЕТ В ОАЭ','fab.request':'Отправить запрос',
+  },
+
+  ar: {
+    'nav.home':'الرئيسية','nav.firm':'عن الشركة','nav.legal':'القانوني',
+    'nav.business':'الأعمال','nav.design_dock':'التصميم',
+    'nav.design_growth':'التصميم &amp; النمو','nav.why':'لماذا نحن',
+    'nav.contact':'تواصل معنا','nav.cta':'أرسل لنا طلباً',
+    'hero.vmark':'تأسست · دبي · 6+ سنوات من النجاح',
+    'hero.eyebrow':'قانوني، شركات، أعمال، إدارة، تسويق وتصميم · دبي، الإمارات',
+    'hero.tagline':'بيت حلول قائم في الإمارات يُرشد رواد الأعمال والشركات والمستثمرين في كل مرحلة من مسيرتهم التجارية — من التأسيس والامتثال وحتى النمو والبناء.',
+    'hero.p1_label':'الخدمات القانونية',
+    'hero.p2_label':'حلول الأعمال والشركات',
+    'hero.p3_label':'الإدارة والتصميم والتسويق',
+    'hero.scroll':'تمرير',
+    'hero.title_html':'<span class="word in"><span>نُعزّز أعمالك</span></span><br><span class="word in"><span class="accent">في كل خطوة</span></span><br><span class="word in"><span>من الطريق.</span></span>',
+    'about.label':'الشركة','about.eyebrow':'عن مجموعة O7',
+    'about.h2_html':'بيت حلول<br>مبني حول<br><span class="it">طموحك.</span>',
+    'about.lede':'نحن في المكان الذي يلتقي فيه التنظيم والاستراتيجية والتنفيذ — نحوّل تعقيد ممارسة الأعمال في الإمارات إلى ميزة هادئة ومدروسة لمن نخدمهم.',
+    'about.who':'من نحن · ماذا نفعل',
+    'about.h3_html':'شريك استشاري وتنفيذي شامل — مبني لجعل ممارسة الأعمال في الإمارات <span class="it">أمراً بسيطاً.</span>',
+    'about.p1':'<strong>مجموعة O7</strong> هي مزوّد حلول مقيم في الإمارات يساعد رواد الأعمال والشركات والمستثمرين على تأسيس أعمالهم وإدارتها وتنميتها بثقة. نجمع الاستشارات القانونية والامتثال وتأسيس الشركات وإدارة المشاريع والتصميم والتسويق الرقمي تحت سقف واحد متكامل.',
+    'about.p2':'من الاستشارة القانونية ودعم العقود إلى ضمان الامتثال وتأسيس الشركات والتحليل التجاري وتنفيذ المشاريع ونمو العلامة التجارية — نجمع التخصص المناسب في اللحظة المناسبة.',
+    'about.caption':'دبي · الإمارات',
+    'about.stat1':'خدمات<br>متخصصة','about.stat2':'محاور<br>رئيسية',
+    'about.stat3':'تحت سقف<br>واحد','about.stat4':'البر الرئيسي<br>&amp; المناطق الحرة',
+    'p1.banner_label':'المحور الأول · الخدمات 01 — 06','p1.title':'الخدمات القانونية',
+    'p1.label':'التفويض',
+    'p1.desc':'الخبرة القانونية التي تحمي مشروعك — معرفة محلية متعمقة، توثيق متوافق مع قوانين الإمارات، ومشورة متأنية على مدار دورة حياة الشركة الكاملة.',
+    's01.tag':'الاستشارة &amp; الامتثال','s01.title':'الاستشارة القانونية في الإمارات &amp; الامتثال المؤسسي',
+    's01.desc':'استشارات قانونية موثوقة وصياغة عقود ودعم تنظيمي في الإمارات للشركات والمستثمرين ورواد الأعمال العاملين في البر الرئيسي والمناطق الحرة.',
+    's02.tag':'العقود','s02.title':'صياغة الوثائق &amp; مراجعتها',
+    's02.desc':'عقود واتفاقيات معدّة باحترافية ومتوافقة مع اللوائح الإماراتية — توثيق يبني الثقة لكل صفقة.',
+    's03.tag':'الحل','s03.title':'دعم التفاوض',
+    's03.desc':'تمثيل ماهر يسعى إلى نتائج مربحة للطرفين — حفاظ على العلاقات التجارية وتجنب تكاليف التقاضي.',
+    's04.tag':'الامتثال','s04.title':'ضمان الامتثال',
+    's04.desc':'إبقاء شركتك متوافقة مع متطلبات الجهات الحكومية الإماراتية — إدارة الإيداعات وإطلاعك على كل تغيير تنظيمي.',
+    's05.tag':'الموارد البشرية','s05.title':'إرشادات قانون العمل',
+    's05.desc':'استشارات في قانون العمل الإماراتي وحقوق الموظفين والامتثال الوظيفي والنزاعات — لضمان علاقات عمل سلسة على جميع المستويات.',
+    's06.tag':'التأسيس','s06.title':'إنشاء الأعمال، الترخيص &amp; تأسيس الشركات',
+    's06.desc':'خدمات إنشاء أعمال سريعة ومتوافقة في الإمارات تشمل التراخيص التجارية وتأسيس الشركات وخدمات PRO والهيكلة التشغيلية.',
+    'p1.quote_html':'«المشورة الصحيحة في اللحظة الصحيحة تُشكّل <em>المسار الكامل</em> لقصة أي شركة.»',
+    'p1.attr':'مجموعة O7 · الممارسة القانونية',
+    'p2.banner_label':'المحور الثاني · الخدمات 07 — 09',
+    'p2.title_html':'حلول الأعمال<br>والشركات',
+    'p2.label':'الأساس',
+    'p2.desc':'من الفكرة الأولى حتى لحظة تداول الشركة بثقة — استراتيجية وهيكل وتحليل واضح لمنح كل مشروع بداية مدروسة.',
+    's07.tag':'الاستراتيجية','s07.title':'الاستراتيجية المؤسسية &amp; الاستشارات التجارية',
+    's07.desc':'استشارات أعمال عملية تركز على النمو ودخول السوق والتخطيط التشغيلي والهياكل المؤسسية القابلة للتوسع لشركات الإمارات.',
+    's08.tag':'التأشيرات &amp; الحكومة','s08.title':'التأشيرة الذهبية &amp; الخدمات الحكومية',
+    's08.desc':'دعم شامل للتأشيرة الذهبية الإماراتية وتأشيرات المستثمرين والموافقات والتصديقات وخدمات التواصل الحكومي في دبي والإمارات.',
+    's09.tag':'التحليل &amp; القرار','s09.title':'تحليل الأعمال &amp; البيانات',
+    's09.desc':'رؤى مدفوعة بالتحليلات لتحسين العمليات والتنبؤ باتجاهات السوق واتخاذ قرارات أكثر دقة — تحويل البيانات إلى استراتيجية.',
+    'p2.quote_html':'«الهيكل السليم يتراكم بصمت — <em>كل بداية مدروسة</em> تصبح مشروعاً أكثر صموداً.»',
+    'p2.attr':'مجموعة O7 · الحلول المؤسسية',
+    'p3.banner_label':'المحور الثالث · الخدمات 10 — 12',
+    'p3.title_html':'الإدارة والتصميم<br>والتسويق',
+    'p3.label':'التنفيذ',
+    'p3.desc':'تخصصات التنفيذ التي تحوّل الأعمال السليمة إلى أعمال لا تُنسى — مشاريع تُسلَّم بانضباط، ومساحات تُشكَّل بنية، وجمهور يُشغَّل بإتقان.',
+    's10.tag':'التسليم','s10.title':'إدارة المشاريع',
+    's10.desc':'تخطيط وتنفيذ وإدارة مشاريع شاملة مصمّمة لبيئات الأعمال الإماراتية — لضمان تحقيق كل مرحلة.',
+    's11.tag':'المساحة &amp; الهوية','s11.title':'التجهيز، التصميم &amp; التنفيذ',
+    's11.desc':'تحويل المساحات بتصميم إبداعي وعملي وحديث يعكس هوية علامتك التجارية — داخليات تعمل بجد مثلك تماماً.',
+    's12.tag':'العلامة &amp; النمو','s12.title':'التسويق الرقمي &amp; نمو العلامة التجارية',
+    's12.desc':'استراتيجيات تسويق رقمي وعلامة تجارية وإعلان مدفوعة بالأداء، مصمّمة لزيادة الظهور وتوليد العملاء المحتملين وتسريع نمو الأعمال.',
+    'p3.quote_html':'«المشاريع الخالدة <em>تُصنع ولا تُعلن</em> — تُجمَّع من ألف خيار مدروس.»',
+    'p3.attr':'مجموعة O7 · التصميم &amp; النمو',
+    'why.label':'في الختام','why.eyebrow':'لماذا مجموعة O7',
+    'why.h2_html':'أربعة أسباب<br>تجعل العملاء يعودون —<br><span class="it">ويوصون بنا.</span>',
+    'why.lede':'الوعد وراء كل مشاركة واحد: إتقان محلي للإمارات، معايير دولية في التسليم، وشريك واحد مسؤول عن الكل.',
+    'why.r1_title':'خبرة إماراتية متجذّرة.',
+    'why.r1_desc':'إلمام قوي بالقوانين المحلية والامتثال ولوائح الجهات الحكومية — مبني من العمل الميداني لا من القراءة عنه.',
+    'why.r2_title':'شامل، تحت سقف واحد.',
+    'why.r2_desc':'من الدعم القانوني إلى نمو الأعمال — استراتيجية وتنفيذ ورعاية ما بعد البيع في مشاركة واحدة مسؤولة.',
+    'why.r3_title':'متخصصون محليون، معايير دولية.',
+    'why.r3_desc':'فريق من المهنيين الإماراتيين يعملون وفق تخصصات ومعايير جودة الممارسة العالمية.',
+    'why.r4_title':'موثوق. مبتكر. موجّه بالنتائج.',
+    'why.r4_desc':'شريك يحضر، يفكر مسبقاً، ويُقاس بما يحرّك أعمالك فعلياً إلى الأمام.',
+    'contact.eyebrow':'تواصل',
+    'contact.h2_html':'لنبنِ معاً<br><span class="it">شيئاً مدروساً.</span>',
+    'contact.lede':'أخبرنا عمّا تعمل عليه. نردّ خلال يوم عمل واحد بالتخصص المناسب للنقاش.',
+    'contact.addr_label':'العنوان','contact.tel_label':'الهاتف','contact.email_label':'البريد الإلكتروني',
+    'form.name_label':'الاسم','form.name_ph':'اسمك الكامل',
+    'form.company_label':'الشركة','form.company_ph':'اختياري',
+    'form.email_label':'البريد الإلكتروني','form.email_ph':'you@company.com',
+    'form.service_label':'الخدمة','form.search_ph':'ابحث عن خدمة…',
+    'form.phone_label':'رقم الهاتف','form.phone_ph':'أدخل رقم هاتفك',
+    'form.search_country_ph':'ابحث عن دولة أو رمز…',
+    'form.date_label':'التاريخ المفضّل للاجتماع',
+    'form.time_label':'الوقت المفضّل للاجتماع',
+    'form.time_slot':'— اختر فترة زمنية —',
+    'form.message_label':'الرسالة',
+    'form.message_ph':'أخبرنا قليلاً عمّا تبنيه.',
+    'form.submit':'إرسال الطلب','form.whatsapp':'إرسال عبر واتساب',
+    'form.success_h':'شكراً لك.',
+    'form.success_p':'وصلتنا رسالتك. سنردّ في أقرب وقت.',
+    'footer.text':'© 2026 مجموعة O7 · دبي · الإمارات',
+    'footer.tagline':'— نعزّز أعمالك في كل خطوة من الطريق.',
+    'footer.years':'6 سنوات في الإمارات','fab.request':'أرسل لنا طلباً',
+  },
+
+  es: {
+    'nav.home':'Inicio','nav.firm':'La Firma','nav.legal':'Legal',
+    'nav.business':'Negocios','nav.design_dock':'Diseño',
+    'nav.design_growth':'Diseño &amp; Crecimiento','nav.why':'Por Qué Nosotros',
+    'nav.contact':'Contacto','nav.cta':'Envíanos una Solicitud',
+    'hero.vmark':'FUND. · DUBÁI · 6+ AÑOS Y CONTANDO',
+    'hero.eyebrow':'Legal, Corporativo, Negocios, Gestión, Marketing y Diseño · Dubái, EAU',
+    'hero.tagline':'Una casa de soluciones con sede en los EAU que guía a emprendedores, corporaciones e inversores en cada etapa de su trayectoria comercial — desde la constitución y el cumplimiento hasta el crecimiento y la marca.',
+    'hero.p1_label':'SERVICIOS LEGALES',
+    'hero.p2_label':'SOLUCIONES EMPRESARIALES &amp; CORPORATIVAS',
+    'hero.p3_label':'GESTIÓN, DISEÑO &amp; MARKETING',
+    'hero.scroll':'Desplazar',
+    'hero.title_html':'<span class="word in"><span>Impulsando</span></span><br><span class="word in"><span>tu negocio,</span></span><br><span class="word in"><span class="accent">cada</span></span> <span class="word in"><span class="accent">paso</span></span><br><span class="word in"><span>del camino.</span></span>',
+    'about.label':'La Firma','about.eyebrow':'Sobre O7 Group',
+    'about.h2_html':'Una casa de soluciones<br>construida en torno a<br><span class="it">tu ambición.</span>',
+    'about.lede':'Existimos donde la regulación, la estrategia y la ejecución se encuentran — convirtiendo la complejidad de hacer negocios en los EAU en una ventaja tranquila y deliberada para quienes servimos.',
+    'about.who':'Quiénes somos · Qué hacemos',
+    'about.h3_html':'Un socio integral de asesoramiento y ejecución — diseñado para hacer que los negocios en los EAU sean <span class="it">simples.</span>',
+    'about.p1':'<strong>O7 Group</strong> es un proveedor de soluciones con sede en los EAU que ayuda a emprendedores, corporaciones e inversores a establecer, gestionar y hacer crecer sus negocios con confianza. Reunimos asesoría legal, cumplimiento, constitución de empresas, gestión de proyectos, diseño y marketing digital bajo un mismo techo — para que fundadores y operadores puedan centrarse en lo que solo ellos pueden hacer.',
+    'about.p2':'Desde consultoría legal y apoyo contractual hasta cumplimiento, constitución de empresas, análisis de negocios, ejecución de proyectos y crecimiento de marca — reunimos la disciplina correcta en el momento correcto.',
+    'about.caption':'Dubái · EAU',
+    'about.stat1':'Servicios<br>especializados','about.stat2':'Pilares de<br>práctica',
+    'about.stat3':'Todo bajo<br>un mismo techo','about.stat4':'Continental<br>&amp; zonas francas',
+    'p1.banner_label':'Pilar I · Servicios 01 — 06','p1.title':'Servicios Legales',
+    'p1.label':'El Mandato',
+    'p1.desc':'La competencia legal que protege tu empresa — experiencia local, documentación alineada con los EAU y asesoramiento considerado a lo largo de todo el ciclo de vida corporativo, desde la constitución hasta la resolución de disputas.',
+    's01.tag':'Asesoría &amp; Cumplimiento','s01.title':'Asesoría Legal en EAU &amp; Cumplimiento Corporativo',
+    's01.desc':'Consultoría legal de confianza, redacción de contratos y apoyo regulatorio en los EAU para empresas, inversores y emprendedores que operan en territorio continental y zonas francas.',
+    's02.tag':'Contratos','s02.title':'Redacción &amp; Revisión de Documentos',
+    's02.desc':'Contratos y acuerdos preparados profesionalmente y alineados con la normativa de los EAU — documentación que genera confianza para cada operación.',
+    's03.tag':'Resolución','s03.title':'Apoyo en Negociaciones',
+    's03.desc':'Representación experta que busca resultados mutuamente beneficiosos — preservando las relaciones comerciales y evitando los costes del litigio.',
+    's04.tag':'Cumplimiento','s04.title':'Garantía de Cumplimiento',
+    's04.desc':'Mantener tu empresa alineada con los requisitos gubernamentales de los EAU — gestionamos los registros y te informamos de cada cambio en el panorama regulatorio.',
+    's05.tag':'Personas','s05.title':'Orientación en Derecho Laboral',
+    's05.desc':'Asesoría en derecho laboral de los EAU, derechos de los empleados, cumplimiento de RRHH y disputas — garantizando relaciones empleador-empleado fluidas a todos los niveles.',
+    's06.tag':'Constitución','s06.title':'Configuración Empresarial, Licencias &amp; Constitución',
+    's06.desc':'Servicios rápidos y conformes de establecimiento empresarial en los EAU que incluyen licencias comerciales, constitución de empresas, servicios PRO y estructuración operativa.',
+    'p1.quote_html':'«El asesoramiento correcto, en el momento correcto, da forma a <em>todo el arco</em> de la historia de una empresa.»',
+    'p1.attr':'O7 Group · Práctica Legal',
+    'p2.banner_label':'Pilar II · Servicios 07 — 09',
+    'p2.title_html':'Soluciones Empresariales<br>y Corporativas',
+    'p2.label':'La Base',
+    'p2.desc':'Desde el primer esbozo de una idea hasta el momento en que una empresa opera con confianza — estrategia, estructura y análisis claro reunidos para dar a cada venture un comienzo deliberado.',
+    's07.tag':'Estrategia','s07.title':'Estrategia Corporativa &amp; Consultoría Empresarial',
+    's07.desc':'Consultoría empresarial práctica centrada en el crecimiento, la entrada al mercado, la planificación operativa y estructuras corporativas escalables para empresas en los EAU.',
+    's08.tag':'Visados &amp; Gobierno','s08.title':'Visa Dorada &amp; Servicios Gubernamentales',
+    's08.desc':'Apoyo integral para Visas Doradas de los EAU, visados de inversor, aprobaciones, legalizaciones y servicios de enlace gubernamental en Dubái y los EAU.',
+    's09.tag':'Análisis &amp; Decisión','s09.title':'Análisis Empresarial &amp; de Datos',
+    's09.desc':'Información basada en análisis para optimizar operaciones, prever tendencias de mercado e informar decisiones más acertadas — traduciendo datos en estrategia.',
+    'p2.quote_html':'«La estructura sólida se acumula en silencio — <em>cada comienzo deliberado</em> se convierte en una empresa más resiliente.»',
+    'p2.attr':'O7 Group · Soluciones Corporativas',
+    'p3.banner_label':'Pilar III · Servicios 10 — 12',
+    'p3.title_html':'Gestión, Diseño<br>y Marketing',
+    'p3.label':'La Ejecución',
+    'p3.desc':'Disciplinas de ejecución que convierten un negocio sólido en uno memorable — proyectos entregados con disciplina, espacios diseñados con intención, audiencias captadas con oficio.',
+    's10.tag':'Entrega','s10.title':'Gestión de Proyectos',
+    's10.desc':'Planificación, ejecución y consultoría de gestión de proyectos de extremo a extremo adaptada a los entornos empresariales de los EAU — garantizando que cada hito se cumpla.',
+    's11.tag':'Espacio &amp; Identidad','s11.title':'Acondicionamiento, Diseño &amp; Ejecución',
+    's11.desc':'Transformación de espacios con diseño creativo, funcional y moderno adaptado para reflejar la identidad de tu marca — interiores que trabajan tan duro como tú.',
+    's12.tag':'Marca &amp; Crecimiento','s12.title':'Marketing Digital &amp; Crecimiento de Marca',
+    's12.desc':'Estrategias de marketing digital, branding y publicidad orientadas al rendimiento, diseñadas para aumentar la visibilidad, generar leads y acelerar el crecimiento empresarial.',
+    'p3.quote_html':'«Las empresas memorables se <em>hacen, no se declaran</em> — ensambladas a partir de mil elecciones consideradas.»',
+    'p3.attr':'O7 Group · Diseño &amp; Crecimiento',
+    'why.label':'En Conclusión','why.eyebrow':'Por Qué O7 Group',
+    'why.h2_html':'Cuatro razones<br>por las que los clientes vuelven —<br><span class="it">y nos recomiendan.</span>',
+    'why.lede':'La promesa detrás de cada encargo es la misma: dominio local de los EAU, estándares internacionales de entrega y un socio responsable para todo.',
+    'why.r1_title':'Experiencia profunda en los EAU.',
+    'why.r1_desc':'Sólido conocimiento de las leyes locales, el cumplimiento y las normativas gubernamentales — construido trabajando en el terreno, no leyendo sobre él.',
+    'why.r2_title':'Integral, bajo un mismo techo.',
+    'why.r2_desc':'Desde apoyo legal hasta crecimiento empresarial — estrategia, ejecución y posventa en un único encargo responsable.',
+    'why.r3_title':'Especialistas locales, estándares internacionales.',
+    'why.r3_desc':'Un equipo de profesionales de los EAU que opera según las disciplinas y los estándares de calidad de la práctica global.',
+    'why.r4_title':'Fiable. Innovador. Orientado a resultados.',
+    'why.r4_desc':'Un socio que aparece, piensa con anticipación y se mide por lo que realmente impulsa tu negocio hacia adelante.',
+    'contact.eyebrow':'Contactar',
+    'contact.h2_html':'Construyamos<br><span class="it">algo deliberado.</span>',
+    'contact.lede':'Cuéntanos en qué estás trabajando. Respondemos en un día hábil, con la disciplina adecuada para la conversación.',
+    'contact.addr_label':'Dirección','contact.tel_label':'Teléfono','contact.email_label':'Correo Electrónico',
+    'form.name_label':'Nombre','form.name_ph':'Tu nombre completo',
+    'form.company_label':'Empresa','form.company_ph':'Opcional',
+    'form.email_label':'Correo Electrónico','form.email_ph':'tu@empresa.com',
+    'form.service_label':'Servicio','form.search_ph':'Buscar servicio…',
+    'form.phone_label':'Número de Teléfono','form.phone_ph':'Introduce tu número de teléfono',
+    'form.search_country_ph':'Buscar país o código…',
+    'form.date_label':'Fecha de Reunión Preferida',
+    'form.time_label':'Hora de Reunión Preferida',
+    'form.time_slot':'— Selecciona un horario —',
+    'form.message_label':'Mensaje',
+    'form.message_ph':'Cuéntanos un poco sobre lo que estás construyendo.',
+    'form.submit':'Enviar la Solicitud','form.whatsapp':'Enviar por WhatsApp',
+    'form.success_h':'Gracias.',
+    'form.success_p':'Tu mensaje nos ha llegado. Responderemos en breve.',
+    'footer.text':'© 2026 O7 Group · Dubái · EAU',
+    'footer.tagline':'— Impulsando tu negocio en cada paso del camino.',
+    'footer.years':'6 AÑOS EN EAU','fab.request':'Envíanos una Solicitud',
+  },
+};
+
+let currentLang = 'en';
+
+function toggleLangPanel() {
+  const panel = document.getElementById('langPanel');
+  panel.classList.toggle('open');
+  document.addEventListener('click', closeLangPanel, { once: true, capture: true });
+}
+
+function closeLangPanel(e) {
+  const sw = document.getElementById('langSwitcher');
+  if (sw && sw.contains(e.target)) return;
+  document.getElementById('langPanel').classList.remove('open');
+}
+
+function changeLang(lang) {
+  currentLang = lang;
+  const t = I18N[lang];
+  if (!t) return;
+
+  // Direction + lang attr
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+
+  // Update lang button label
+  const codes = { en:'EN', de:'DE', ru:'RU', ar:'AR', es:'ES' };
+  const btn = document.getElementById('langBtn');
+  if (btn) btn.textContent = codes[lang] || 'EN';
+
+  // Mark active option
+  document.querySelectorAll('#langPanel button[data-lang]').forEach(b => {
+    b.classList.toggle('lang-active-opt', b.dataset.lang === lang);
+  });
+  document.getElementById('langPanel').classList.remove('open');
+
+  // Helper: set innerHTML for selector
+  const H = (sel, key) => {
+    if (!t[key]) return;
+    document.querySelectorAll(sel).forEach(el => el.innerHTML = t[key]);
+  };
+  // Helper: set textContent
+  const T = (sel, key) => {
+    if (!t[key]) return;
+    document.querySelectorAll(sel).forEach(el => el.innerHTML = t[key]);
+  };
+  // Helper: set placeholder
+  const P = (id, key) => {
+    if (!t[key]) return;
+    const el = document.getElementById(id);
+    if (el) el.placeholder = t[key];
+  };
+
+  // ── Navigation ────────────────────────────────────────────────────────────
+  T('.nav-links a[href="#about"]', 'nav.firm');
+  T('.nav-links a[href="#legal"]', 'nav.legal');
+  T('.nav-links a[href="#business"]', 'nav.business');
+  T('.nav-links a[href="#management"]', 'nav.design_growth');
+  T('.nav-links a[href="#why"]', 'nav.why');
+  T('.nav-cta', 'nav.cta');
+  T('.mobile-drawer a[href="#about"]', 'nav.firm');
+  T('.mobile-drawer a[href="#legal"]', 'nav.legal');
+  T('.mobile-drawer a[href="#business"]', 'nav.business');
+  T('.mobile-drawer a[href="#management"]', 'nav.design_growth');
+  T('.mobile-drawer a[href="#why"]', 'nav.why');
+  T('.mobile-drawer a[href="#contact"]', 'nav.cta');
+  // Side dock
+  const dockKeys = ['nav.home','nav.firm','nav.legal','nav.business','nav.design_dock','nav.why','nav.contact'];
+  document.querySelectorAll('.side-dock a').forEach((a, i) => {
+    const lbl = a.querySelector('.label');
+    if (lbl && t[dockKeys[i]]) lbl.textContent = t[dockKeys[i]];
+  });
+
+  // ── Hero ──────────────────────────────────────────────────────────────────
+  T('.hero-vmark', 'hero.vmark');
+  T('.hero-meta .eyebrow', 'hero.eyebrow');
+  H('.hero-title', 'hero.title_html');
+  T('.hero-tagline', 'hero.tagline');
+  const hPillars = document.querySelectorAll('.hero-pillar .pt');
+  ['hero.p1_label','hero.p2_label','hero.p3_label'].forEach((k,i)=>{ if(hPillars[i]&&t[k]) hPillars[i].innerHTML=t[k]; });
+  T('.scroll-cue span', 'hero.scroll');
+
+  // ── About ─────────────────────────────────────────────────────────────────
+  T('#about .section-head .side .label', 'about.label');
+  T('#about .section-head .eyebrow', 'about.eyebrow');
+  H('#about .section-head h2', 'about.h2_html');
+  T('#about .section-head .lede', 'about.lede');
+  T('#about .lbl span', 'about.who');
+  H('#about .about-text h3', 'about.h3_html');
+  const aPs = document.querySelectorAll('#about .about-text p');
+  if (aPs[0] && t['about.p1']) aPs[0].innerHTML = t['about.p1'];
+  if (aPs[1] && t['about.p2']) aPs[1].innerHTML = t['about.p2'];
+  T('.image-caption', 'about.caption');
+  const statLbls = document.querySelectorAll('.stat .l');
+  ['about.stat1','about.stat2','about.stat3','about.stat4'].forEach((k,i)=>{ if(statLbls[i]&&t[k]) statLbls[i].innerHTML=t[k]; });
+
+  // ── Pillar I ──────────────────────────────────────────────────────────────
+  T('#legal .banner-label', 'p1.banner_label');
+  T('#legal .banner-roman h2', 'p1.title');
+  T('#legal .pillar-intro .label', 'p1.label');
+  T('#legal .pillar-intro .desc', 'p1.desc');
+  const svcs = document.querySelectorAll('.service');
+  const svc = (i, sub, key) => { if(svcs[i]&&t[key]){ const el=svcs[i].querySelector(sub); if(el) el.innerHTML=t[key]; } };
+  for(let i=0;i<6;i++){ const n=i+1; svc(i,'.copper-tag',`s0${n}.tag`); svc(i,'h3',`s0${n}.title`); svc(i,'p',`s0${n}.desc`); }
+  H('#legal .pillar-coda blockquote', 'p1.quote_html');
+  T('#legal .pillar-coda .attr', 'p1.attr');
+
+  // ── Pillar II ─────────────────────────────────────────────────────────────
+  T('#business .banner-label', 'p2.banner_label');
+  H('#business .banner-roman h2', 'p2.title_html');
+  T('#business .pillar-intro .label', 'p2.label');
+  T('#business .pillar-intro .desc', 'p2.desc');
+  [7,8,9].forEach((n,i)=>{ svc(6+i,'.copper-tag',`s0${n}.tag`); svc(6+i,'h3',`s0${n}.title`); svc(6+i,'p',`s0${n}.desc`); });
+  H('#business .pillar-coda blockquote', 'p2.quote_html');
+  T('#business .pillar-coda .attr', 'p2.attr');
+
+  // ── Pillar III ────────────────────────────────────────────────────────────
+  T('#management .banner-label', 'p3.banner_label');
+  H('#management .banner-roman h2', 'p3.title_html');
+  T('#management .pillar-intro .label', 'p3.label');
+  T('#management .pillar-intro .desc', 'p3.desc');
+  [10,11,12].forEach((n,i)=>{ svc(9+i,'.copper-tag',`s${n}.tag`); svc(9+i,'h3',`s${n}.title`); svc(9+i,'p',`s${n}.desc`); });
+  H('#management .pillar-coda blockquote', 'p3.quote_html');
+  T('#management .pillar-coda .attr', 'p3.attr');
+
+  // ── Why Us ────────────────────────────────────────────────────────────────
+  T('#why .section-head .side .label', 'why.label');
+  T('#why .section-head .eyebrow', 'why.eyebrow');
+  H('#why .section-head h2', 'why.h2_html');
+  T('#why .section-head .lede', 'why.lede');
+  const reasons = document.querySelectorAll('.reason');
+  [1,2,3,4].forEach((n,i)=>{
+    if(!reasons[i]) return;
+    const h4=reasons[i].querySelector('h4'); const p=reasons[i].querySelector('p');
+    if(h4&&t[`why.r${n}_title`]) h4.textContent=t[`why.r${n}_title`];
+    if(p&&t[`why.r${n}_desc`]) p.textContent=t[`why.r${n}_desc`];
+  });
+
+  // ── Contact ───────────────────────────────────────────────────────────────
+  T('#contact .eyebrow', 'contact.eyebrow');
+  H('#contact h2', 'contact.h2_html');
+  T('#contact .lede', 'contact.lede');
+  const ciLbls = document.querySelectorAll('.ci-label');
+  ['contact.addr_label','contact.tel_label','contact.email_label'].forEach((k,i)=>{ if(ciLbls[i]&&t[k]) ciLbls[i].textContent=t[k]; });
+  // Form labels (use for= attribute to be safe)
+  const labelMap = {
+    name:'form.name_label', company:'form.company_label', email:'form.email_label',
+    service:'form.service_label', phone:'form.phone_label',
+    meeting_date:'form.date_label', meeting_time:'form.time_label', message:'form.message_label'
+  };
+  Object.entries(labelMap).forEach(([forAttr, key]) => {
+    const lbl = document.querySelector(`label[for="${forAttr}"]`);
+    if (!lbl || !t[key]) return;
+    const childSpan = lbl.querySelector('span');
+    if (childSpan) {
+      // Only update the text node before the span
+      lbl.childNodes[0].textContent = t[key] + ' ';
+    } else {
+      lbl.textContent = t[key];
+    }
+  });
+  // Placeholders
+  P('name','form.name_ph'); P('company','form.company_ph');
+  P('email','form.email_ph'); P('phone','form.phone_ph');
+  P('message','form.message_ph');
+  P('svcSearch','form.search_ph'); P('phoneSearch','form.search_country_ph');
+  // Time slot default option
+  const ts = document.getElementById('meeting_time');
+  if (ts && t['form.time_slot']) ts.options[0].text = t['form.time_slot'];
+  // Submit button
+  const submitBtn = document.querySelector('button.submit');
+  if (submitBtn && t['form.submit']) {
+    const sp = submitBtn.querySelector('span');
+    if (sp) { const tn = sp.childNodes[0]; if(tn) tn.textContent = t['form.submit'] + ' '; }
+  }
+  // WhatsApp button
+  const waBtn = document.querySelector('button.submit-wa');
+  if (waBtn && t['form.whatsapp']) {
+    const nodes = [...waBtn.childNodes];
+    const textNode = nodes.find(n => n.nodeType === 3 && n.textContent.trim());
+    if (textNode) textNode.textContent = ' ' + t['form.whatsapp'];
+  }
+  // Success message
+  T('.form-success h3', 'form.success_h');
+  T('.form-success p', 'form.success_p');
+  // Footer
+  const fSpans = document.querySelectorAll('.site-footer span');
+  if(fSpans[0]&&t['footer.text']) fSpans[0].textContent=t['footer.text'];
+  if(fSpans[1]&&t['footer.tagline']) fSpans[1].textContent=t['footer.tagline'];
+  if(fSpans[2]&&t['footer.years']) fSpans[2].textContent=t['footer.years'];
+  // FAB
+  const fab = document.querySelector('.send-request-fab');
+  if (fab && t['fab.request']) {
+    const nodes = [...fab.childNodes];
+    const textNode = nodes.find(n => n.nodeType === 3 && n.textContent.trim());
+    if (textNode) textNode.textContent = ' ' + t['fab.request'];
+  }
+
+  localStorage.setItem('o7-lang', lang);
+}
+
+// Apply saved or browser-preferred language on load
+(function initLang() {
+  const saved = localStorage.getItem('o7-lang');
+  const browser = (navigator.language || '').slice(0,2).toLowerCase();
+  const supported = ['en','de','ru','ar','es'];
+  const lang = supported.includes(saved) ? saved
+             : supported.includes(browser) ? browser
+             : 'en';
+  if (lang !== 'en') changeLang(lang);
+  else {
+    document.querySelectorAll('#langPanel button[data-lang]').forEach(b => {
+      b.classList.toggle('lang-active-opt', b.dataset.lang === 'en');
+    });
+  }
+})();
+
 </script>
 
 
