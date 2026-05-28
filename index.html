@@ -1225,6 +1225,48 @@
   }
   .field select option { background: var(--ink); color: var(--cream); }
 
+  /* ===== Phone field ===== */
+  .phone-input-wrap {
+    display: flex;
+    align-items: flex-end;
+    border-bottom: 1px solid rgba(247, 241, 231, 0.30);
+    transition: border-color 0.3s;
+  }
+  .phone-input-wrap:focus-within { border-bottom-color: var(--copper-lt); }
+  .phone-code-select {
+    width: auto !important;
+    background: transparent;
+    border: none;
+    border-right: 1px solid rgba(247, 241, 231, 0.15);
+    padding: 8px 30px 14px 0;
+    font-family: var(--serif);
+    font-size: 17px;
+    color: var(--cream);
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%23E5A661' stroke-width='1.5' fill='none' stroke-linecap='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0 center;
+    flex-shrink: 0;
+    min-width: 148px;
+    cursor: pointer;
+  }
+  .phone-code-select option { background: var(--ink); color: var(--cream); }
+  .phone-number-input {
+    flex: 1;
+    background: transparent;
+    border: none !important;
+    padding: 8px 0 14px 16px;
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--cream);
+    outline: none;
+    width: 0 !important;
+    min-width: 0;
+  }
+  .phone-number-input::placeholder { color: rgba(247,241,231,0.35); font-style: italic; }
+
   button.submit {
     align-self: flex-start;
     margin-top: 16px;
@@ -1990,6 +2032,77 @@
             </select>
           </div>
         </div>
+        <div class="field phone-field">
+          <label for="phone">Phone Number</label>
+          <div class="phone-input-wrap">
+            <select id="phone_code" name="phone_code" class="phone-code-select">
+              <option value="+971">🇦🇪 UAE +971</option>
+              <option value="+966">🇸🇦 KSA +966</option>
+              <option value="+965">🇰🇼 KWT +965</option>
+              <option value="+974">🇶🇦 QAT +974</option>
+              <option value="+973">🇧🇭 BHR +973</option>
+              <option value="+968">🇴🇲 OMN +968</option>
+              <option value="+962">🇯🇴 JOR +962</option>
+              <option value="+961">🇱🇧 LBN +961</option>
+              <option value="+964">🇮🇶 IRQ +964</option>
+              <option value="+20">🇪🇬 EGY +20</option>
+              <option value="+212">🇲🇦 MAR +212</option>
+              <option value="+213">🇩🇿 DZA +213</option>
+              <option value="+216">🇹🇳 TUN +216</option>
+              <option value="+249">🇸🇩 SDN +249</option>
+              <option value="+1">🇺🇸 USA +1</option>
+              <option value="+1">🇨🇦 CAN +1</option>
+              <option value="+44">🇬🇧 GBR +44</option>
+              <option value="+33">🇫🇷 FRA +33</option>
+              <option value="+49">🇩🇪 DEU +49</option>
+              <option value="+39">🇮🇹 ITA +39</option>
+              <option value="+34">🇪🇸 ESP +34</option>
+              <option value="+31">🇳🇱 NLD +31</option>
+              <option value="+32">🇧🇪 BEL +32</option>
+              <option value="+41">🇨🇭 CHE +41</option>
+              <option value="+43">🇦🇹 AUT +43</option>
+              <option value="+46">🇸🇪 SWE +46</option>
+              <option value="+47">🇳🇴 NOR +47</option>
+              <option value="+45">🇩🇰 DNK +45</option>
+              <option value="+358">🇫🇮 FIN +358</option>
+              <option value="+48">🇵🇱 POL +48</option>
+              <option value="+351">🇵🇹 PRT +351</option>
+              <option value="+30">🇬🇷 GRC +30</option>
+              <option value="+90">🇹🇷 TUR +90</option>
+              <option value="+7">🇷🇺 RUS +7</option>
+              <option value="+380">🇺🇦 UKR +380</option>
+              <option value="+91">🇮🇳 IND +91</option>
+              <option value="+92">🇵🇰 PAK +92</option>
+              <option value="+880">🇧🇩 BGD +880</option>
+              <option value="+94">🇱🇰 LKA +94</option>
+              <option value="+977">🇳🇵 NPL +977</option>
+              <option value="+86">🇨🇳 CHN +86</option>
+              <option value="+81">🇯🇵 JPN +81</option>
+              <option value="+82">🇰🇷 KOR +82</option>
+              <option value="+65">🇸🇬 SGP +65</option>
+              <option value="+60">🇲🇾 MYS +60</option>
+              <option value="+63">🇵🇭 PHL +63</option>
+              <option value="+62">🇮🇩 IDN +62</option>
+              <option value="+66">🇹🇭 THA +66</option>
+              <option value="+84">🇻🇳 VNM +84</option>
+              <option value="+61">🇦🇺 AUS +61</option>
+              <option value="+64">🇳🇿 NZL +64</option>
+              <option value="+27">🇿🇦 ZAF +27</option>
+              <option value="+234">🇳🇬 NGA +234</option>
+              <option value="+254">🇰🇪 KEN +254</option>
+              <option value="+233">🇬🇭 GHA +233</option>
+              <option value="+55">🇧🇷 BRA +55</option>
+              <option value="+52">🇲🇽 MEX +52</option>
+              <option value="+54">🇦🇷 ARG +54</option>
+              <option value="+57">🇨🇴 COL +57</option>
+              <option value="+56">🇨🇱 CHL +56</option>
+              <option value="+98">🇮🇷 IRN +98</option>
+              <option value="+972">🇮🇱 ISR +972</option>
+            </select>
+            <input type="tel" id="phone" name="phone" class="phone-number-input" placeholder="Enter your phone number">
+          </div>
+        </div>
+
         <div class="form-row">
           <div class="field">
             <label for="meeting_date">Preferred Meeting Date</label>
@@ -2239,6 +2352,7 @@
       name:         form.name.value,
       company:      form.company.value,
       email:        form.email.value,
+      phone:        (form.phone_code.value || '') + ' ' + (form.phone.value || ''),
       service:      form.service.value,
       meeting_date: form.meeting_date.value || 'Not specified',
       meeting_time: form.meeting_time.value || 'Not specified',
@@ -2278,6 +2392,9 @@
     const name         = form.name.value.trim()         || '—';
     const company      = form.company.value.trim()      || '—';
     const email        = form.email.value.trim()        || '—';
+    const phoneCode    = form.phone_code.value          || '';
+    const phoneNum     = form.phone.value.trim()        || '—';
+    const phone        = phoneNum !== '—' ? `${phoneCode} ${phoneNum}` : '—';
     const service      = form.service.value             || '—';
     const meetingDate  = form.meeting_date.value        || 'Not specified';
     const meetingTime  = form.meeting_time.value        || 'Not specified';
@@ -2288,6 +2405,7 @@
       `*Name:* ${name}\n` +
       `*Company:* ${company}\n` +
       `*Email:* ${email}\n` +
+      `*Phone:* ${phone}\n` +
       `*Service:* ${service}\n` +
       `*Meeting Date:* ${meetingDate}\n` +
       `*Meeting Time:* ${meetingTime} (Dubai · GMT+4)\n\n` +
