@@ -1233,26 +1233,146 @@
     transition: border-color 0.3s;
   }
   .phone-input-wrap:focus-within { border-bottom-color: var(--copper-lt); }
-  .phone-code-select {
-    width: auto !important;
+
+  /* Custom service picker */
+  .svc-wrapper {
+    position: relative;
+    width: 100%;
+  }
+  .svc-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
     background: transparent;
     border: none;
-    border-right: 1px solid rgba(247, 241, 231, 0.15);
-    padding: 8px 30px 14px 0;
+    border-bottom: 1px solid rgba(247,241,231,0.30);
+    padding: 8px 0 14px;
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--cream);
+    cursor: pointer;
+    outline: none;
+    text-align: left;
+    transition: border-color 0.3s;
+  }
+  .svc-trigger:hover, .svc-wrapper.open .svc-trigger { border-bottom-color: var(--copper-lt); }
+  .svc-trigger svg {
+    width: 10px; height: 7px;
+    stroke: var(--copper-lt);
+    flex-shrink: 0;
+    transition: transform 0.25s var(--ease);
+  }
+  .svc-wrapper.open .svc-trigger svg { transform: rotate(180deg); }
+  .svc-panel {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #0c1828;
+    border: 1px solid rgba(201,118,46,0.35);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    z-index: 9997;
+    display: none;
+  }
+  .svc-wrapper.open .svc-panel { display: block; }
+  .svc-list { max-height: 280px; overflow-y: auto; overscroll-behavior: contain; }
+  .svc-list::-webkit-scrollbar { width: 4px; }
+  .svc-list::-webkit-scrollbar-track { background: transparent; }
+  .svc-list::-webkit-scrollbar-thumb { background: rgba(201,118,46,0.4); }
+  .sco {
+    padding: 11px 16px;
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--cream);
+    cursor: pointer;
+    transition: background 0.15s;
+    border-bottom: 1px solid rgba(247,241,231,0.05);
+  }
+  .sco:last-child { border-bottom: none; }
+  .sco:hover, .sco.sel { background: rgba(201,118,46,0.14); color: var(--copper-lt); }
+  .sco-empty { padding: 14px 16px; font-family: var(--sans); font-size: 11px; color: rgba(247,241,231,0.4); text-align: center; letter-spacing: 0.08em; }
+
+  /* Custom country picker */
+  .phone-code-wrapper {
+    position: relative;
+    flex-shrink: 0;
+    border-right: 1px solid rgba(247,241,231,0.15);
+  }
+  .phone-code-trigger {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    padding: 8px 26px 14px 0;
     font-family: var(--serif);
     font-size: 17px;
     color: var(--cream);
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%23E5A661' stroke-width='1.5' fill='none' stroke-linecap='round'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 0 center;
-    flex-shrink: 0;
-    min-width: 148px;
     cursor: pointer;
+    white-space: nowrap;
+    outline: none;
+    min-width: 128px;
   }
-  .phone-code-select option { background: var(--ink); color: var(--cream); }
+  .phone-code-trigger svg {
+    width: 10px; height: 7px;
+    stroke: var(--copper-lt);
+    flex-shrink: 0;
+    transition: transform 0.25s var(--ease);
+  }
+  .phone-code-wrapper.open .phone-code-trigger svg { transform: rotate(180deg); }
+  .phone-code-panel {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 290px;
+    background: #0c1828;
+    border: 1px solid rgba(201,118,46,0.35);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    z-index: 9997;
+    display: none;
+  }
+  .phone-code-wrapper.open .phone-code-panel { display: block; }
+  .phone-search-wrap {
+    padding: 10px 10px 8px;
+    border-bottom: 1px solid rgba(247,241,231,0.08);
+  }
+  .phone-search {
+    width: 100%;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(247,241,231,0.18);
+    padding: 8px 12px;
+    font-family: var(--sans);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--cream);
+    outline: none;
+    box-sizing: border-box;
+  }
+  .phone-search::placeholder { color: rgba(247,241,231,0.38); }
+  .phone-search:focus { border-color: var(--copper-lt); }
+  .phone-code-list {
+    max-height: 230px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .phone-code-list::-webkit-scrollbar { width: 4px; }
+  .phone-code-list::-webkit-scrollbar-track { background: transparent; }
+  .phone-code-list::-webkit-scrollbar-thumb { background: rgba(201,118,46,0.4); }
+  .pco {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .pco:hover, .pco.sel { background: rgba(201,118,46,0.14); }
+  .pco .pflag { font-size: 17px; line-height: 1; flex-shrink: 0; }
+  .pco .pname { flex: 1; font-family: var(--sans); font-size: 11.5px; letter-spacing: 0.03em; color: rgba(247,241,231,0.78); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pco .pcode { font-family: var(--sans); font-size: 11px; color: var(--copper-lt); flex-shrink: 0; }
+  .pco-empty { padding: 14px; font-family: var(--sans); font-size: 11px; color: rgba(247,241,231,0.4); text-align: center; letter-spacing: 0.08em; }
+
   .phone-number-input {
     flex: 1;
     background: transparent;
@@ -2024,81 +2144,37 @@
           </div>
           <div class="field">
             <label for="service">Service</label>
-            <select id="service" name="service">
-              <option>Legal Services</option>
-              <option>Business &amp; Corporate Solutions</option>
-              <option>Management, Design &amp; Marketing</option>
-              <option>General enquiry</option>
-            </select>
+            <div class="svc-wrapper" id="svcWrapper">
+              <button type="button" class="svc-trigger" id="svcTrigger" aria-haspopup="listbox">
+                <span id="svcDisplay">Legal Services</span>
+                <svg viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1l5 5 5-5" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </button>
+              <div class="svc-panel" id="svcPanel">
+                <div class="phone-search-wrap">
+                  <input type="text" class="phone-search" id="svcSearch" placeholder="Search service…" autocomplete="off" spellcheck="false">
+                </div>
+                <div class="svc-list" id="svcList"></div>
+              </div>
+              <input type="hidden" id="service" name="service" value="Legal Services">
+            </div>
           </div>
         </div>
         <div class="field phone-field">
           <label for="phone">Phone Number</label>
           <div class="phone-input-wrap">
-            <select id="phone_code" name="phone_code" class="phone-code-select">
-              <option value="+971">🇦🇪 UAE +971</option>
-              <option value="+966">🇸🇦 KSA +966</option>
-              <option value="+965">🇰🇼 KWT +965</option>
-              <option value="+974">🇶🇦 QAT +974</option>
-              <option value="+973">🇧🇭 BHR +973</option>
-              <option value="+968">🇴🇲 OMN +968</option>
-              <option value="+962">🇯🇴 JOR +962</option>
-              <option value="+961">🇱🇧 LBN +961</option>
-              <option value="+964">🇮🇶 IRQ +964</option>
-              <option value="+20">🇪🇬 EGY +20</option>
-              <option value="+212">🇲🇦 MAR +212</option>
-              <option value="+213">🇩🇿 DZA +213</option>
-              <option value="+216">🇹🇳 TUN +216</option>
-              <option value="+249">🇸🇩 SDN +249</option>
-              <option value="+1">🇺🇸 USA +1</option>
-              <option value="+1">🇨🇦 CAN +1</option>
-              <option value="+44">🇬🇧 GBR +44</option>
-              <option value="+33">🇫🇷 FRA +33</option>
-              <option value="+49">🇩🇪 DEU +49</option>
-              <option value="+39">🇮🇹 ITA +39</option>
-              <option value="+34">🇪🇸 ESP +34</option>
-              <option value="+31">🇳🇱 NLD +31</option>
-              <option value="+32">🇧🇪 BEL +32</option>
-              <option value="+41">🇨🇭 CHE +41</option>
-              <option value="+43">🇦🇹 AUT +43</option>
-              <option value="+46">🇸🇪 SWE +46</option>
-              <option value="+47">🇳🇴 NOR +47</option>
-              <option value="+45">🇩🇰 DNK +45</option>
-              <option value="+358">🇫🇮 FIN +358</option>
-              <option value="+48">🇵🇱 POL +48</option>
-              <option value="+351">🇵🇹 PRT +351</option>
-              <option value="+30">🇬🇷 GRC +30</option>
-              <option value="+90">🇹🇷 TUR +90</option>
-              <option value="+7">🇷🇺 RUS +7</option>
-              <option value="+380">🇺🇦 UKR +380</option>
-              <option value="+91">🇮🇳 IND +91</option>
-              <option value="+92">🇵🇰 PAK +92</option>
-              <option value="+880">🇧🇩 BGD +880</option>
-              <option value="+94">🇱🇰 LKA +94</option>
-              <option value="+977">🇳🇵 NPL +977</option>
-              <option value="+86">🇨🇳 CHN +86</option>
-              <option value="+81">🇯🇵 JPN +81</option>
-              <option value="+82">🇰🇷 KOR +82</option>
-              <option value="+65">🇸🇬 SGP +65</option>
-              <option value="+60">🇲🇾 MYS +60</option>
-              <option value="+63">🇵🇭 PHL +63</option>
-              <option value="+62">🇮🇩 IDN +62</option>
-              <option value="+66">🇹🇭 THA +66</option>
-              <option value="+84">🇻🇳 VNM +84</option>
-              <option value="+61">🇦🇺 AUS +61</option>
-              <option value="+64">🇳🇿 NZL +64</option>
-              <option value="+27">🇿🇦 ZAF +27</option>
-              <option value="+234">🇳🇬 NGA +234</option>
-              <option value="+254">🇰🇪 KEN +254</option>
-              <option value="+233">🇬🇭 GHA +233</option>
-              <option value="+55">🇧🇷 BRA +55</option>
-              <option value="+52">🇲🇽 MEX +52</option>
-              <option value="+54">🇦🇷 ARG +54</option>
-              <option value="+57">🇨🇴 COL +57</option>
-              <option value="+56">🇨🇱 CHL +56</option>
-              <option value="+98">🇮🇷 IRN +98</option>
-              <option value="+972">🇮🇱 ISR +972</option>
-            </select>
+            <div class="phone-code-wrapper" id="phoneCodeWrapper">
+              <button type="button" class="phone-code-trigger" id="phoneCodeTrigger" aria-haspopup="listbox">
+                <span id="phoneCodeDisplay">🇦🇪 +971</span>
+                <svg viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1l5 5 5-5" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </button>
+              <div class="phone-code-panel" id="phoneCodePanel">
+                <div class="phone-search-wrap">
+                  <input type="text" class="phone-search" id="phoneSearch" placeholder="Search country or code…" autocomplete="off" spellcheck="false">
+                </div>
+                <div class="phone-code-list" id="phoneCodeList"></div>
+              </div>
+              <input type="hidden" id="phone_code" name="phone_code" value="+971">
+            </div>
             <input type="tel" id="phone" name="phone" class="phone-number-input" placeholder="Enter your phone number">
           </div>
         </div>
@@ -2413,6 +2489,381 @@
 
     window.open(`https://wa.me/971553185552?text=${encodeURIComponent(text)}`, '_blank');
   }
+
+  /* ===== Service picker ===== */
+  (function () {
+    const SERVICES = [
+      'Legal Services',
+      'Business Consultations',
+      'Corporate Solutions',
+      'Digital Marketing',
+      'Fitting Out And Design',
+      'Project Management',
+      'Golden Visas',
+      'Business Startups',
+      'Advanced Data Analysis',
+      'UAE Law Employment',
+      'Monthly Subscriptions For Management Services',
+      'Monthly Subscriptions For Legal Representation',
+    ];
+
+    const wrapper = document.getElementById('svcWrapper');
+    const trigger = document.getElementById('svcTrigger');
+    const display = document.getElementById('svcDisplay');
+    const panel   = document.getElementById('svcPanel');
+    const search  = document.getElementById('svcSearch');
+    const list    = document.getElementById('svcList');
+    const hidden  = document.getElementById('service');
+
+    if (!wrapper) return;
+
+    let selected = SERVICES[0];
+
+    function render(q) {
+      q = (q || '').toLowerCase();
+      const hits = q ? SERVICES.filter(s => s.toLowerCase().includes(q)) : SERVICES;
+      if (!hits.length) {
+        list.innerHTML = '<div class="sco-empty">No results</div>';
+        return;
+      }
+      list.innerHTML = hits.map(s =>
+        `<div class="sco${s === selected ? ' sel' : ''}" data-svc="${s}">${s}</div>`
+      ).join('');
+      list.querySelectorAll('.sco').forEach(el =>
+        el.addEventListener('mousedown', e => { e.preventDefault(); pick(el.dataset.svc); })
+      );
+    }
+
+    function pick(s) {
+      selected = s;
+      display.textContent = s;
+      hidden.value = s;
+      close();
+    }
+
+    function open() {
+      wrapper.classList.add('open');
+      search.value = '';
+      render('');
+      setTimeout(() => search.focus(), 50);
+      requestAnimationFrame(() => {
+        const sel = list.querySelector('.sel');
+        if (sel) sel.scrollIntoView({ block: 'nearest' });
+      });
+    }
+
+    function close() { wrapper.classList.remove('open'); }
+
+    trigger.addEventListener('click', e => {
+      e.stopPropagation();
+      wrapper.classList.contains('open') ? close() : open();
+    });
+    search.addEventListener('input', () => render(search.value));
+    document.addEventListener('click', e => { if (!wrapper.contains(e.target)) close(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+    render('');
+  })();
+
+  /* ===== Country phone picker ===== */
+  (function () {
+    const COUNTRIES = [
+      {f:'🇦🇪',n:'United Arab Emirates',c:'+971'},
+      {f:'🇸🇦',n:'Saudi Arabia',c:'+966'},
+      {f:'🇶🇦',n:'Qatar',c:'+974'},
+      {f:'🇰🇼',n:'Kuwait',c:'+965'},
+      {f:'🇧🇭',n:'Bahrain',c:'+973'},
+      {f:'🇴🇲',n:'Oman',c:'+968'},
+      {f:'🇯🇴',n:'Jordan',c:'+962'},
+      {f:'🇱🇧',n:'Lebanon',c:'+961'},
+      {f:'🇮🇶',n:'Iraq',c:'+964'},
+      {f:'🇪🇬',n:'Egypt',c:'+20'},
+      {f:'🇾🇪',n:'Yemen',c:'+967'},
+      {f:'🇸🇾',n:'Syria',c:'+963'},
+      {f:'🇵🇸',n:'Palestine',c:'+970'},
+      {f:'🇮🇱',n:'Israel',c:'+972'},
+      {f:'🇲🇦',n:'Morocco',c:'+212'},
+      {f:'🇩🇿',n:'Algeria',c:'+213'},
+      {f:'🇹🇳',n:'Tunisia',c:'+216'},
+      {f:'🇱🇾',n:'Libya',c:'+218'},
+      {f:'🇸🇩',n:'Sudan',c:'+249'},
+      {f:'🇸🇸',n:'South Sudan',c:'+211'},
+      {f:'🇸🇴',n:'Somalia',c:'+252'},
+      {f:'🇩🇯',n:'Djibouti',c:'+253'},
+      {f:'🇪🇷',n:'Eritrea',c:'+291'},
+      {f:'🇮🇷',n:'Iran',c:'+98'},
+      {f:'🇦🇫',n:'Afghanistan',c:'+93'},
+      {f:'🇵🇰',n:'Pakistan',c:'+92'},
+      {f:'🇮🇳',n:'India',c:'+91'},
+      {f:'🇧🇩',n:'Bangladesh',c:'+880'},
+      {f:'🇱🇰',n:'Sri Lanka',c:'+94'},
+      {f:'🇳🇵',n:'Nepal',c:'+977'},
+      {f:'🇧🇹',n:'Bhutan',c:'+975'},
+      {f:'🇲🇻',n:'Maldives',c:'+960'},
+      {f:'🇺🇸',n:'United States',c:'+1'},
+      {f:'🇨🇦',n:'Canada',c:'+1'},
+      {f:'🇬🇧',n:'United Kingdom',c:'+44'},
+      {f:'🇫🇷',n:'France',c:'+33'},
+      {f:'🇩🇪',n:'Germany',c:'+49'},
+      {f:'🇮🇹',n:'Italy',c:'+39'},
+      {f:'🇪🇸',n:'Spain',c:'+34'},
+      {f:'🇵🇹',n:'Portugal',c:'+351'},
+      {f:'🇳🇱',n:'Netherlands',c:'+31'},
+      {f:'🇧🇪',n:'Belgium',c:'+32'},
+      {f:'🇨🇭',n:'Switzerland',c:'+41'},
+      {f:'🇦🇹',n:'Austria',c:'+43'},
+      {f:'🇸🇪',n:'Sweden',c:'+46'},
+      {f:'🇳🇴',n:'Norway',c:'+47'},
+      {f:'🇩🇰',n:'Denmark',c:'+45'},
+      {f:'🇫🇮',n:'Finland',c:'+358'},
+      {f:'🇮🇸',n:'Iceland',c:'+354'},
+      {f:'🇮🇪',n:'Ireland',c:'+353'},
+      {f:'🇱🇺',n:'Luxembourg',c:'+352'},
+      {f:'🇲🇨',n:'Monaco',c:'+377'},
+      {f:'🇸🇲',n:'San Marino',c:'+378'},
+      {f:'🇻🇦',n:'Vatican City',c:'+379'},
+      {f:'🇲🇹',n:'Malta',c:'+356'},
+      {f:'🇬🇷',n:'Greece',c:'+30'},
+      {f:'🇹🇷',n:'Turkey',c:'+90'},
+      {f:'🇵🇱',n:'Poland',c:'+48'},
+      {f:'🇨🇿',n:'Czech Republic',c:'+420'},
+      {f:'🇸🇰',n:'Slovakia',c:'+421'},
+      {f:'🇭🇺',n:'Hungary',c:'+36'},
+      {f:'🇷🇴',n:'Romania',c:'+40'},
+      {f:'🇧🇬',n:'Bulgaria',c:'+359'},
+      {f:'🇭🇷',n:'Croatia',c:'+385'},
+      {f:'🇸🇮',n:'Slovenia',c:'+386'},
+      {f:'🇧🇦',n:'Bosnia and Herzegovina',c:'+387'},
+      {f:'🇷🇸',n:'Serbia',c:'+381'},
+      {f:'🇲🇪',n:'Montenegro',c:'+382'},
+      {f:'🇲🇰',n:'North Macedonia',c:'+389'},
+      {f:'🇦🇱',n:'Albania',c:'+355'},
+      {f:'🇽🇰',n:'Kosovo',c:'+383'},
+      {f:'🇱🇻',n:'Latvia',c:'+371'},
+      {f:'🇱🇹',n:'Lithuania',c:'+370'},
+      {f:'🇪🇪',n:'Estonia',c:'+372'},
+      {f:'🇧🇾',n:'Belarus',c:'+375'},
+      {f:'🇺🇦',n:'Ukraine',c:'+380'},
+      {f:'🇲🇩',n:'Moldova',c:'+373'},
+      {f:'🇷🇺',n:'Russia',c:'+7'},
+      {f:'🇬🇪',n:'Georgia',c:'+995'},
+      {f:'🇦🇲',n:'Armenia',c:'+374'},
+      {f:'🇦🇿',n:'Azerbaijan',c:'+994'},
+      {f:'🇰🇿',n:'Kazakhstan',c:'+7'},
+      {f:'🇺🇿',n:'Uzbekistan',c:'+998'},
+      {f:'🇹🇲',n:'Turkmenistan',c:'+993'},
+      {f:'🇹🇯',n:'Tajikistan',c:'+992'},
+      {f:'🇰🇬',n:'Kyrgyzstan',c:'+996'},
+      {f:'🇲🇳',n:'Mongolia',c:'+976'},
+      {f:'🇨🇳',n:'China',c:'+86'},
+      {f:'🇯🇵',n:'Japan',c:'+81'},
+      {f:'🇰🇷',n:'South Korea',c:'+82'},
+      {f:'🇰🇵',n:'North Korea',c:'+850'},
+      {f:'🇹🇼',n:'Taiwan',c:'+886'},
+      {f:'🇭🇰',n:'Hong Kong',c:'+852'},
+      {f:'🇲🇴',n:'Macau',c:'+853'},
+      {f:'🇸🇬',n:'Singapore',c:'+65'},
+      {f:'🇲🇾',n:'Malaysia',c:'+60'},
+      {f:'🇵🇭',n:'Philippines',c:'+63'},
+      {f:'🇮🇩',n:'Indonesia',c:'+62'},
+      {f:'🇹🇭',n:'Thailand',c:'+66'},
+      {f:'🇻🇳',n:'Vietnam',c:'+84'},
+      {f:'🇰🇭',n:'Cambodia',c:'+855'},
+      {f:'🇱🇦',n:'Laos',c:'+856'},
+      {f:'🇲🇲',n:'Myanmar',c:'+95'},
+      {f:'🇧🇳',n:'Brunei',c:'+673'},
+      {f:'🇹🇱',n:'Timor-Leste',c:'+670'},
+      {f:'🇦🇺',n:'Australia',c:'+61'},
+      {f:'🇳🇿',n:'New Zealand',c:'+64'},
+      {f:'🇵🇬',n:'Papua New Guinea',c:'+675'},
+      {f:'🇫🇯',n:'Fiji',c:'+679'},
+      {f:'🇸🇧',n:'Solomon Islands',c:'+677'},
+      {f:'🇻🇺',n:'Vanuatu',c:'+678'},
+      {f:'🇼🇸',n:'Samoa',c:'+685'},
+      {f:'🇹🇴',n:'Tonga',c:'+676'},
+      {f:'🇰🇮',n:'Kiribati',c:'+686'},
+      {f:'🇫🇲',n:'Micronesia',c:'+691'},
+      {f:'🇲🇭',n:'Marshall Islands',c:'+692'},
+      {f:'🇵🇼',n:'Palau',c:'+680'},
+      {f:'🇳🇷',n:'Nauru',c:'+674'},
+      {f:'🇹🇻',n:'Tuvalu',c:'+688'},
+      {f:'🇨🇰',n:'Cook Islands',c:'+682'},
+      {f:'🇳🇺',n:'Niue',c:'+683'},
+      {f:'🇵🇫',n:'French Polynesia',c:'+689'},
+      {f:'🇳🇨',n:'New Caledonia',c:'+687'},
+      {f:'🇬🇺',n:'Guam',c:'+1671'},
+      {f:'🇵🇷',n:'Puerto Rico',c:'+1787'},
+      {f:'🇻🇮',n:'U.S. Virgin Islands',c:'+1340'},
+      {f:'🇦🇸',n:'American Samoa',c:'+1684'},
+      {f:'🇲🇵',n:'N. Mariana Islands',c:'+1670'},
+      {f:'🇿🇦',n:'South Africa',c:'+27'},
+      {f:'🇳🇬',n:'Nigeria',c:'+234'},
+      {f:'🇰🇪',n:'Kenya',c:'+254'},
+      {f:'🇬🇭',n:'Ghana',c:'+233'},
+      {f:'🇪🇹',n:'Ethiopia',c:'+251'},
+      {f:'🇹🇿',n:'Tanzania',c:'+255'},
+      {f:'🇺🇬',n:'Uganda',c:'+256'},
+      {f:'🇷🇼',n:'Rwanda',c:'+250'},
+      {f:'🇧🇮',n:'Burundi',c:'+257'},
+      {f:'🇹🇬',n:'Togo',c:'+228'},
+      {f:'🇧🇯',n:'Benin',c:'+229'},
+      {f:'🇳🇪',n:'Niger',c:'+227'},
+      {f:'🇲🇱',n:'Mali',c:'+223'},
+      {f:'🇧🇫',n:'Burkina Faso',c:'+226'},
+      {f:'🇸🇳',n:'Senegal',c:'+221'},
+      {f:'🇬🇳',n:'Guinea',c:'+224'},
+      {f:'🇬🇼',n:'Guinea-Bissau',c:'+245'},
+      {f:'🇬🇲',n:'Gambia',c:'+220'},
+      {f:'🇸🇱',n:'Sierra Leone',c:'+232'},
+      {f:'🇱🇷',n:'Liberia',c:'+231'},
+      {f:'🇨🇮',n:"Côte d'Ivoire",c:'+225'},
+      {f:'🇲🇷',n:'Mauritania',c:'+222'},
+      {f:'🇨🇻',n:'Cape Verde',c:'+238'},
+      {f:'🇸🇹',n:'São Tomé & Príncipe',c:'+239'},
+      {f:'🇬🇶',n:'Equatorial Guinea',c:'+240'},
+      {f:'🇬🇦',n:'Gabon',c:'+241'},
+      {f:'🇨🇲',n:'Cameroon',c:'+237'},
+      {f:'🇨🇫',n:'Central African Republic',c:'+236'},
+      {f:'🇹🇩',n:'Chad',c:'+235'},
+      {f:'🇨🇬',n:'Republic of the Congo',c:'+242'},
+      {f:'🇨🇩',n:'DR Congo',c:'+243'},
+      {f:'🇦🇴',n:'Angola',c:'+244'},
+      {f:'🇿🇲',n:'Zambia',c:'+260'},
+      {f:'🇿🇼',n:'Zimbabwe',c:'+263'},
+      {f:'🇲🇼',n:'Malawi',c:'+265'},
+      {f:'🇲🇿',n:'Mozambique',c:'+258'},
+      {f:'🇲🇬',n:'Madagascar',c:'+261'},
+      {f:'🇲🇺',n:'Mauritius',c:'+230'},
+      {f:'🇸🇨',n:'Seychelles',c:'+248'},
+      {f:'🇰🇲',n:'Comoros',c:'+269'},
+      {f:'🇳🇦',n:'Namibia',c:'+264'},
+      {f:'🇧🇼',n:'Botswana',c:'+267'},
+      {f:'🇱🇸',n:'Lesotho',c:'+266'},
+      {f:'🇸🇿',n:'Eswatini',c:'+268'},
+      {f:'🇧🇷',n:'Brazil',c:'+55'},
+      {f:'🇲🇽',n:'Mexico',c:'+52'},
+      {f:'🇦🇷',n:'Argentina',c:'+54'},
+      {f:'🇨🇴',n:'Colombia',c:'+57'},
+      {f:'🇨🇱',n:'Chile',c:'+56'},
+      {f:'🇵🇪',n:'Peru',c:'+51'},
+      {f:'🇻🇪',n:'Venezuela',c:'+58'},
+      {f:'🇪🇨',n:'Ecuador',c:'+593'},
+      {f:'🇧🇴',n:'Bolivia',c:'+591'},
+      {f:'🇵🇾',n:'Paraguay',c:'+595'},
+      {f:'🇺🇾',n:'Uruguay',c:'+598'},
+      {f:'🇬🇾',n:'Guyana',c:'+592'},
+      {f:'🇸🇷',n:'Suriname',c:'+597'},
+      {f:'🇬🇫',n:'French Guiana',c:'+594'},
+      {f:'🇫🇰',n:'Falkland Islands',c:'+500'},
+      {f:'🇬🇹',n:'Guatemala',c:'+502'},
+      {f:'🇸🇻',n:'El Salvador',c:'+503'},
+      {f:'🇭🇳',n:'Honduras',c:'+504'},
+      {f:'🇳🇮',n:'Nicaragua',c:'+505'},
+      {f:'🇨🇷',n:'Costa Rica',c:'+506'},
+      {f:'🇵🇦',n:'Panama',c:'+507'},
+      {f:'🇨🇺',n:'Cuba',c:'+53'},
+      {f:'🇩🇴',n:'Dominican Republic',c:'+1809'},
+      {f:'🇭🇹',n:'Haiti',c:'+509'},
+      {f:'🇯🇲',n:'Jamaica',c:'+1876'},
+      {f:'🇹🇹',n:'Trinidad and Tobago',c:'+1868'},
+      {f:'🇧🇧',n:'Barbados',c:'+1246'},
+      {f:'🇱🇨',n:'Saint Lucia',c:'+1758'},
+      {f:'🇻🇨',n:'St Vincent & Grenadines',c:'+1784'},
+      {f:'🇬🇩',n:'Grenada',c:'+1473'},
+      {f:'🇦🇬',n:'Antigua and Barbuda',c:'+1268'},
+      {f:'🇩🇲',n:'Dominica',c:'+1767'},
+      {f:'🇰🇳',n:'Saint Kitts and Nevis',c:'+1869'},
+      {f:'🇧🇸',n:'Bahamas',c:'+1242'},
+      {f:'🇧🇿',n:'Belize',c:'+501'},
+      {f:'🇦🇼',n:'Aruba',c:'+297'},
+      {f:'🇨🇼',n:'Curaçao',c:'+599'},
+      {f:'🇧🇲',n:'Bermuda',c:'+1441'},
+      {f:'🇰🇾',n:'Cayman Islands',c:'+1345'},
+      {f:'🇹🇨',n:'Turks and Caicos',c:'+1649'},
+      {f:'🇻🇬',n:'British Virgin Islands',c:'+1284'},
+      {f:'🇦🇮',n:'Anguilla',c:'+1264'},
+      {f:'🇲🇸',n:'Montserrat',c:'+1664'},
+      {f:'🇬🇵',n:'Guadeloupe',c:'+590'},
+      {f:'🇲🇶',n:'Martinique',c:'+596'},
+      {f:'🇸🇽',n:'Sint Maarten',c:'+1721'},
+      {f:'🇵🇲',n:'Saint Pierre & Miquelon',c:'+508'},
+      {f:'🇬🇱',n:'Greenland',c:'+299'},
+      {f:'🇫🇴',n:'Faroe Islands',c:'+298'},
+      {f:'🇬🇮',n:'Gibraltar',c:'+350'},
+      {f:'🇦🇩',n:'Andorra',c:'+376'},
+      {f:'🇱🇮',n:'Liechtenstein',c:'+423'},
+      {f:'🇷🇪',n:'Réunion',c:'+262'},
+      {f:'🇾🇹',n:'Mayotte',c:'+262'},
+      {f:'🇸🇭',n:'Saint Helena',c:'+290'},
+      {f:'🇮🇴',n:'British Indian Ocean Territory',c:'+246'},
+      {f:'🇼🇫',n:'Wallis and Futuna',c:'+681'},
+      {f:'🇹🇰',n:'Tokelau',c:'+690'},
+      {f:'🇪🇭',n:'Western Sahara',c:'+212'},
+    ];
+
+    const wrapper = document.getElementById('phoneCodeWrapper');
+    const trigger = document.getElementById('phoneCodeTrigger');
+    const display = document.getElementById('phoneCodeDisplay');
+    const panel   = document.getElementById('phoneCodePanel');
+    const search  = document.getElementById('phoneSearch');
+    const list    = document.getElementById('phoneCodeList');
+    const hidden  = document.getElementById('phone_code');
+
+    if (!wrapper) return;
+
+    let selected = COUNTRIES[0];
+
+    function render(q) {
+      q = (q || '').toLowerCase();
+      const hits = q
+        ? COUNTRIES.filter(c => c.n.toLowerCase().includes(q) || c.c.includes(q))
+        : COUNTRIES;
+      if (!hits.length) {
+        list.innerHTML = '<div class="pco-empty">No results</div>';
+        return;
+      }
+      list.innerHTML = hits.map(c =>
+        `<div class="pco${c === selected ? ' sel' : ''}" data-code="${c.c}" data-name="${c.n}" data-flag="${c.f}">` +
+        `<span class="pflag">${c.f}</span>` +
+        `<span class="pname">${c.n}</span>` +
+        `<span class="pcode">${c.c}</span>` +
+        `</div>`
+      ).join('');
+      list.querySelectorAll('.pco').forEach(el =>
+        el.addEventListener('mousedown', e => { e.preventDefault(); pick(el.dataset); })
+      );
+    }
+
+    function pick(d) {
+      selected = COUNTRIES.find(c => c.n === d.name && c.c === d.code) || selected;
+      display.textContent = d.flag + ' ' + d.code;
+      hidden.value = d.code;
+      close();
+    }
+
+    function open() {
+      wrapper.classList.add('open');
+      search.value = '';
+      render('');
+      setTimeout(() => search.focus(), 50);
+      requestAnimationFrame(() => {
+        const sel = list.querySelector('.sel');
+        if (sel) sel.scrollIntoView({ block: 'nearest' });
+      });
+    }
+
+    function close() { wrapper.classList.remove('open'); }
+
+    trigger.addEventListener('click', e => {
+      e.stopPropagation();
+      wrapper.classList.contains('open') ? close() : open();
+    });
+    search.addEventListener('input', () => render(search.value));
+    document.addEventListener('click', e => { if (!wrapper.contains(e.target)) close(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+    render('');
+  })();
 </script>
 
 
