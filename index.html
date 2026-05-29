@@ -1907,6 +1907,28 @@
   }
 
 
+  /* ===== Phone code dropdown: RTL fixes ===== */
+  /* Flip panel anchor: in RTL the wrapper is on the right, so open leftward */
+  [dir="rtl"] .phone-code-panel {
+    left: auto;
+    right: 0;
+  }
+  /* Flip the divider border from right to left */
+  [dir="rtl"] .phone-code-wrapper {
+    border-right: none;
+    border-left: 1px solid rgba(247,241,231,0.15);
+  }
+  /* Flip trigger padding so chevron gap is on the left side */
+  [dir="rtl"] .phone-code-trigger {
+    padding: 8px 0 14px 26px;
+  }
+  /* Clamp panel width on mobile so it never overflows viewport */
+  @media (max-width: 600px) {
+    .phone-code-panel {
+      width: min(290px, calc(100vw - 24px));
+    }
+  }
+
   /* ===== Phone numbers & links: always LTR even in Arabic RTL ===== */
   [lang="ar"] .ci-val a,
   [lang="ar"] .ci-val.alt a,
@@ -2509,7 +2531,7 @@
     <footer class="site-footer">
       <span>© 2026 O7 Group · Dubai · UAE</span>
       <span class="fin">— Empowering your business, every step of the way.</span>
-      <span>6 YEARS IN UAE</span>
+      <span>6+ YEARS IN UAE AND COUNTING</span>
     </footer>
   </div>
 </section>
@@ -3229,7 +3251,7 @@ const I18N = {
     'contact.eyebrow':'Engage',
     'contact.h2_html':'Let\'s build<br><span class="it">something deliberate.</span>',
     'contact.lede':'Tell us what you\'re working on. We respond within one business day, with the right discipline brought to the conversation.',
-    'contact.addr_label':'Address','contact.tel_label':'Telephone','contact.email_label':'Email',
+    'contact.addr_label':'Address','contact.addr_line1':'Business Bay','contact.addr_line2':'Dubai, United Arab Emirates','contact.tel_label':'Telephone','contact.email_label':'Email',
     'form.name_label':'Name','form.name_ph':'Your full name',
     'form.company_label':'Company','form.company_ph':'Optional',
     'form.email_label':'Email','form.email_ph':'your email',
@@ -3246,7 +3268,7 @@ const I18N = {
     'form.success_p':'Your message has reached us. We\'ll respond shortly.',
     'footer.text':'© 2026 O7 Group · Dubai · UAE',
     'footer.tagline':'— Empowering your business, every step of the way.',
-    'footer.years':'6 YEARS IN UAE','fab.request':'Send Us A Request',
+    'footer.years':'6+ YEARS IN UAE AND COUNTING','fab.request':'Send Us A Request',
   },
 
   de: {
@@ -3327,7 +3349,7 @@ const I18N = {
     'contact.eyebrow':'Kontakt',
     'contact.h2_html':'Lassen Sie uns gemeinsam<br><span class="it">etwas Durchdachtes aufbauen.</span>',
     'contact.lede':'Erzählen Sie uns, woran Sie arbeiten. Wir antworten innerhalb eines Werktages mit der richtigen Disziplin für das Gespräch.',
-    'contact.addr_label':'Adresse','contact.tel_label':'Telefon','contact.email_label':'E Mail',
+    'contact.addr_label':'Adresse','contact.addr_line1':'Business Bay','contact.addr_line2':'Dubai, Vereinigte Arabische Emirate','contact.tel_label':'Telefon','contact.email_label':'E Mail',
     'form.name_label':'Name','form.name_ph':'Ihr vollständiger Name',
     'form.company_label':'Unternehmen','form.company_ph':'Optional',
     'form.email_label':'E Mail','form.email_ph':'Ihre E-Mail',
@@ -3342,9 +3364,9 @@ const I18N = {
     'form.submit':'Anfrage absenden','form.whatsapp':'Per WhatsApp senden',
     'form.success_h':'Vielen Dank.',
     'form.success_p':'Ihre Nachricht ist bei uns angekommen. Wir antworten in Kürze.',
-    'footer.text':'© 2026 O7 Group · Dubai · VAE',
+    'footer.text':'© 2026 O7 Group · Dubai · UAE',
     'footer.tagline':'— Wir stärken Ihr Unternehmen auf jedem Schritt des Weges.',
-    'footer.years':'6 JAHRE IN DEN VAE','fab.request':'Anfrage stellen',
+    'footer.years':'6+ YEARS IN UAE AND COUNTING','fab.request':'Anfrage stellen',
   },
 
   ru: {
@@ -3425,7 +3447,7 @@ const I18N = {
     'contact.eyebrow':'Связаться',
     'contact.h2_html':'Давайте создадим<br><span class="it">что то осмысленное.</span>',
     'contact.lede':'Расскажите нам, над чем вы работаете. Мы ответим в течение одного рабочего дня с нужной экспертизой для разговора.',
-    'contact.addr_label':'Адрес','contact.tel_label':'Телефон','contact.email_label':'Электронная почта',
+    'contact.addr_label':'Адрес','contact.addr_line1':'Бизнес Бэй','contact.addr_line2':'Дубай, ОАЭ','contact.tel_label':'Телефон','contact.email_label':'Электронная почта',
     'form.name_label':'Имя','form.name_ph':'Ваше полное имя',
     'form.company_label':'Компания','form.company_ph':'Необязательно',
     'form.email_label':'Электронная почта','form.email_ph':'ваш email',
@@ -3440,9 +3462,9 @@ const I18N = {
     'form.submit':'Отправить запрос','form.whatsapp':'Отправить через WhatsApp',
     'form.success_h':'Спасибо.',
     'form.success_p':'Ваше сообщение получено. Мы ответим в ближайшее время.',
-    'footer.text':'© 2026 O7 Group · Дубай · ОАЭ',
+    'footer.text':'© 2026 O7 Group · Dubai · UAE',
     'footer.tagline':'— Поддерживаем ваш бизнес на каждом шагу.',
-    'footer.years':'6 ЛЕТ В ОАЭ','fab.request':'Отправить запрос',
+    'footer.years':'6+ YEARS IN UAE AND COUNTING','fab.request':'Отправить запрос',
   },
 
   ar: {
@@ -3539,9 +3561,9 @@ const I18N = {
     'form.submit':'إرسال الطلب','form.whatsapp':'إرسال عبر واتساب',
     'form.success_h':'شكراً لك.',
     'form.success_p':'وصلتنا رسالتك. سنردّ في أقرب وقت.',
-    'footer.text':'© 2026 مجموعة O7 · دبي · الإمارات',
+    'footer.text':'© 2026 O7 Group · Dubai · UAE',
     'footer.tagline':'— نعزّز أعمالك في كل خطوة من الطريق.',
-    'footer.years':'6 سنوات في الإمارات','fab.request':'أرسل لنا طلباً',
+    'footer.years':'6+ YEARS IN UAE AND COUNTING','fab.request':'أرسل لنا طلباً',
   },
 
   es: {
@@ -3622,7 +3644,7 @@ const I18N = {
     'contact.eyebrow':'Contactar',
     'contact.h2_html':'Construyamos<br><span class="it">algo deliberado.</span>',
     'contact.lede':'Cuéntanos en qué estás trabajando. Respondemos en un día hábil, con la disciplina adecuada para la conversación.',
-    'contact.addr_label':'Dirección','contact.tel_label':'Teléfono','contact.email_label':'Correo Electrónico',
+    'contact.addr_label':'Dirección','contact.addr_line1':'Business Bay','contact.addr_line2':'Dubái, Emiratos Árabes Unidos','contact.tel_label':'Teléfono','contact.email_label':'Correo Electrónico',
     'form.name_label':'Nombre','form.name_ph':'Tu nombre completo',
     'form.company_label':'Empresa','form.company_ph':'Opcional',
     'form.email_label':'Correo Electrónico','form.email_ph':'tu correo',
@@ -3637,9 +3659,9 @@ const I18N = {
     'form.submit':'Enviar la Solicitud','form.whatsapp':'Enviar por WhatsApp',
     'form.success_h':'Gracias.',
     'form.success_p':'Tu mensaje nos ha llegado. Responderemos en breve.',
-    'footer.text':'© 2026 O7 Group · Dubái · EAU',
+    'footer.text':'© 2026 O7 Group · Dubai · UAE',
     'footer.tagline':'— Impulsando tu negocio en cada paso del camino.',
-    'footer.years':'6 AÑOS EN EAU','fab.request':'Envíanos una Solicitud',
+    'footer.years':'6+ YEARS IN UAE AND COUNTING','fab.request':'Envíanos una Solicitud',
   },
   fr: {
     'nav.home':'Accueil','nav.firm':'Le Cabinet','nav.legal':'Juridique',
@@ -3719,7 +3741,7 @@ const I18N = {
     'contact.eyebrow':'Engager',
     'contact.h2_html':'Construisons<br><span class=\"it\">quelque chose de d\u00E9lib\u00E9r\u00E9.</span>',
     'contact.lede':'Dites nous sur quoi vous travaillez. Nous r\u00E9pondons dans un jour ouvrable, avec la bonne comp\u00E9tence port\u00E9e \u00E0 la conversation.',
-    'contact.addr_label':'Adresse','contact.tel_label':'T\u00E9l\u00E9phone','contact.email_label':'E mail',
+    'contact.addr_label':'Adresse','contact.addr_line1':'Business Bay','contact.addr_line2':'Duba\u00EF, \u00C9mirats arabes unis','contact.tel_label':'T\u00E9l\u00E9phone','contact.email_label':'E mail',
     'form.name_label':'Nom','form.name_ph':'Votre nom complet',
     'form.company_label':'Entreprise','form.company_ph':'Facultatif',
     'form.email_label':'E mail','form.email_ph':'votre e-mail',
@@ -3734,9 +3756,9 @@ const I18N = {
     'form.submit':'Soumettre la Demande','form.whatsapp':'Envoyer via WhatsApp',
     'form.success_h':'Merci.',
     'form.success_p':'Votre message nous est parvenu. Nous r\u00E9pondrons prochainement.',
-    'footer.text':'\u00A9 2026 O7 Group \u00B7 Duba\u00EF \u00B7 EAU',
+    'footer.text':'© 2026 O7 Group · Dubai · UAE',
     'footer.tagline':'\u2014 Votre r\u00E9ussite, notre mission, \u00E0 chaque \u00E9tape.',
-    'footer.years':'6 ANS AUX EAU','fab.request':'Envoyer une Demande',
+    'footer.years':'6+ YEARS IN UAE AND COUNTING','fab.request':'Envoyer une Demande',
   },
   zh: {
     'nav.home':'\u9996\u9875','nav.firm':'\u516c\u53f8\u4ecb\u7ecd','nav.legal':'\u6cd5\u5f8b',
@@ -3816,7 +3838,7 @@ const I18N = {
     'contact.eyebrow':'\u5f00\u59cb\u5408\u4f5c',
     'contact.h2_html':'\u8ba9\u6211\u4eec\u5171\u540c<br><span class=\"it\">\u6784\u5efa\u6709\u610f\u4e49\u7684\u6210\u5c31\u3002</span>',
     'contact.lede':'\u544a\u8bc9\u6211\u4eec\u60a8\u6b63\u5728\u63a8\u8fdb\u7684\u9879\u76ee\u3002\u6211\u4eec\u5c06\u5728\u4e00\u4e2a\u5de5\u4f5c\u65e5\u5185\u56de\u590d\uff0c\u5e76\u5e26\u6765\u5207\u5b9e\u5339\u914d\u7684\u4e13\u4e1a\u80fd\u529b\u3002',
-    'contact.addr_label':'\u5730\u5740','contact.tel_label':'\u7535\u8bdd','contact.email_label':'\u90ae\u7bb1',
+    'contact.addr_label':'\u5730\u5740','contact.addr_line1':'\u5546\u4e1a\u6e7e','contact.addr_line2':'\u8fea\u62dc\uff0c\u963f\u8054\u914b','contact.tel_label':'\u7535\u8bdd','contact.email_label':'\u90ae\u7bb1',
     'form.name_label':'\u59d3\u540d','form.name_ph':'\u60a8\u7684\u5168\u540d',
     'form.company_label':'\u516c\u53f8','form.company_ph':'\u9009\u586b',
     'form.email_label':'\u90ae\u7bb1','form.email_ph':'\u60a8\u7684\u90ae\u7bb1',
@@ -3831,9 +3853,9 @@ const I18N = {
     'form.submit':'\u63d0\u4ea4\u8bf7\u6c42','form.whatsapp':'\u901a\u8fc7WhatsApp\u53d1\u9001',
     'form.success_h':'\u611f\u8c22\u60a8\uff01',
     'form.success_p':'\u60a8\u7684\u4fe1\u606f\u5df2\u6536\u5230\uff0c\u6211\u4eec\u5c06\u5c3d\u5feb\u56de\u590d\u3002',
-    'footer.text':'\u00a9 2026 O7\u96c6\u56e2 · \u8fea\u62dc · \u963f\u8054\u914b',
+    'footer.text':'© 2026 O7 Group · Dubai · UAE',
     'footer.tagline':'\u2014 \u8d4b\u80fd\u60a8\u7684\u4e1a\u52a1\uff0c\u6bcf\u4e00\u6b65\uff0c\u6211\u4eec\u540c\u884c\u3002',
-    'footer.years':'\u6df1\u8015\u963f\u8054\u914b6\u5e74\u4ee5\u4e0a','fab.request':'\u53d1\u9001\u548c\u8be2',
+    'footer.years':'6+ YEARS IN UAE AND COUNTING','fab.request':'\u53d1\u9001\u548c\u8be2',
   },
 };
 
@@ -3983,12 +4005,10 @@ function changeLang(lang) {
   T('#contact .lede', 'contact.lede');
   const ciLbls = document.querySelectorAll('.ci-label');
   ['contact.addr_label','contact.tel_label','contact.email_label'].forEach((k,i)=>{ if(ciLbls[i]&&t[k]) ciLbls[i].textContent=t[k]; });
-  // Update address value for translated languages
+  // Update address value
   const addrVal = document.getElementById('contactAddrVal');
   if (addrVal && t['contact.addr_line1']) {
     addrVal.innerHTML = t['contact.addr_line1'] + '<br><span class="em">' + t['contact.addr_line2'] + '</span>';
-  } else if (addrVal && lang === 'en') {
-    addrVal.innerHTML = 'Business Bay<br><span class="em">Dubai, United Arab Emirates</span>';
   }
   // Form labels (use for= attribute to be safe)
   const labelMap = {
