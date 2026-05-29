@@ -2757,22 +2757,21 @@
       meeting_date: form.meeting_date.value || 'Not specified',
       meeting_time: form.meeting_time.value || 'Not specified',
       message:      form.message.value,
-      _subject: 'New Enquiry — O7 Group Website',
-      _captcha: 'false',
-      _template: 'table'
+      _subject:     'New Enquiry — O7 Group Website',
+      _replyto:     form.email.value
     };
 
     try {
-      const res = await fetch('https://formsubmit.co/ajax/adam@o7legal.com', {
+      const res = await fetch('https://formspree.io/f/mbdbwvnb', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(payload)
       });
       const json = await res.json();
-      if (json.success === 'true' || json.success === true) {
+      if (res.ok && json.ok) {
         showFormSuccess(form);
       } else {
-        throw new Error('FormSubmit returned failure');
+        throw new Error((json.errors || []).map(e => e.message).join(', ') || 'Formspree error');
       }
     } catch (err) {
       /* Fallback: open mailto so the message is never lost */
