@@ -1209,6 +1209,17 @@
     transition: border-color 0.3s;
   }
   .field textarea { resize: none; min-height: 110px; line-height: 1.5; }
+  /* Calendar icon — tinted copper to match the site palette */
+  .field input[type="date"] { color-scheme: dark; }
+  .field input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: brightness(0) saturate(100%) invert(65%) sepia(40%) saturate(600%) hue-rotate(350deg) brightness(105%) contrast(90%);
+    opacity: 0.85;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 3px;
+    transition: opacity 0.2s;
+  }
+  .field input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
   .field input::placeholder, .field textarea::placeholder {
     color: rgba(247, 241, 231, 0.35);
     font-style: italic;
@@ -1775,6 +1786,14 @@
     font-family: 'IBM Plex Sans Arabic', sans-serif !important;
     font-weight: 500;
     letter-spacing: 0 !important;
+  }
+  /* Footer: keep English text LTR and preserve left/right positions in RTL layout */
+  [dir="rtl"] footer.site-footer {
+    flex-direction: row;
+  }
+  [dir="rtl"] footer.site-footer span {
+    direction: ltr;
+    unicode-bidi: isolate;
   }
 
   /* — Government / enterprise: Almarai SemiBold + Montserrat — */
