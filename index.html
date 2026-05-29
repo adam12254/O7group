@@ -1760,20 +1760,21 @@
     line-height: 1.9;
   }
 
-  /* — Luxury minimal: Cairo SemiBold — */
-  [lang="ar"] .hero-eyebrow,
-  [lang="ar"] .section-eyebrow,
-  [lang="ar"] .section-label,
-  [lang="ar"] .about-label,
-  [lang="ar"] .about-who,
-  [lang="ar"] .about-caption,
-  [lang="ar"] .contact-eyebrow,
+  /* — Labels / tags / eyebrows: IBM Plex Sans Arabic Medium — */
+  [lang="ar"] .eyebrow,
+  [lang="ar"] .copper-tag,
+  [lang="ar"] .banner-label,
+  [lang="ar"] .label,
+  [lang="ar"] .pillar-intro .side .label,
+  [lang="ar"] .section-head .side .label,
+  [lang="ar"] .about-text .lbl span,
   [lang="ar"] .ci-label,
   [lang="ar"] .stat-label,
-  [lang="ar"] .hero-vmark {
-    font-family: 'Cairo', sans-serif;
-    font-weight: 600;
-    letter-spacing: 0.01em !important;
+  [lang="ar"] .hero-vmark,
+  [lang="ar"] .site-footer span {
+    font-family: 'IBM Plex Sans Arabic', sans-serif !important;
+    font-weight: 500;
+    letter-spacing: 0 !important;
   }
 
   /* — Government / enterprise: Almarai SemiBold + Montserrat — */
@@ -1880,26 +1881,6 @@
   }
 
   /* ===== Mobile drawer lang row ===== */
-  .drawer-langs {
-    display: flex;
-    gap: 12px;
-    margin-top: 8px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .drawer-langs button {
-    background: none;
-    border: 1px solid rgba(247,241,231,0.3);
-    color: var(--cream);
-    font-size: 20px;
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: border-color 0.2s;
-    line-height: 1;
-  }
-  .drawer-langs button:hover,
-  .drawer-langs button.lang-active-opt { border-color: var(--copper-lt); }
 
 
   /* ===== Chinese / Noto Serif SC font overrides ===== */
@@ -2012,15 +1993,6 @@
   <a href="#management" data-mobile-link>Design &amp; Growth</a>
   <a href="#why" data-mobile-link>Why Us</a>
   <a href="#contact" data-mobile-link>Send Us A Request</a>
-  <div class="drawer-langs" id="drawerLangs">
-    <button onclick="changeLang('en');closeDrawer()" data-drawer-lang="en" title="English">🇬🇧</button>
-    <button onclick="changeLang('de');closeDrawer()" data-drawer-lang="de" title="Deutsch">🇩🇪</button>
-    <button onclick="changeLang('ru');closeDrawer()" data-drawer-lang="ru" title="Русский">🇷🇺</button>
-    <button onclick="changeLang('ar');closeDrawer()" data-drawer-lang="ar" title="العربية">🇦🇪</button>
-    <button onclick="changeLang('es');closeDrawer()" data-drawer-lang="es" title="Español">🇪🇸</button>
-    <button onclick="changeLang('fr');closeDrawer()" data-drawer-lang="fr" title="Français">🇫🇷</button>
-    <button onclick="changeLang('zh');closeDrawer()" data-drawer-lang="zh" title="中文">🇨🇳</button>
-  </div>
 </div>
 
 <!-- ===== HERO ===== -->
@@ -3900,9 +3872,6 @@ function changeLang(lang) {
   // Mark active option
   document.querySelectorAll('#langPanel button[data-lang]').forEach(b => {
     b.classList.toggle('lang-active-opt', b.dataset.lang === lang);
-  });
-  document.querySelectorAll('#drawerLangs button[data-drawer-lang]').forEach(b => {
-    b.classList.toggle('lang-active-opt', b.dataset.drawerLang === lang);
   });
   document.getElementById('langPanel').classList.remove('open');
 
