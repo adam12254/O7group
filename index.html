@@ -2535,8 +2535,7 @@
         <div class="ci-block">
           <div class="ci-label">Email</div>
           <div class="ci-val alt">
-            <a href="mailto:ma@o7legal.com" data-hover>ma@o7legal.com</a><br>
-            <a href="mailto:adam@o7legal.com" data-hover>adam@o7legal.com</a>
+            <a href="mailto:hi@o7legal.com" data-hover>hi@o7legal.com</a>
           </div>
         </div>
 
@@ -2865,7 +2864,7 @@
       message:      form.message.value,
       _subject:     'New Enquiry — O7 Group Website',
       _replyto:     form.email.value,
-      _cc:          'ma@o7legal.com'
+      _cc:          'hi@o7legal.com'
     };
 
     try {
@@ -2888,7 +2887,7 @@
       const body = encodeURIComponent(
         `Name: ${payload.name}\nCompany: ${payload.company}\nEmail: ${payload.email}\nService: ${payload.service}\n\nMessage:\n${payload.message}`
       );
-      window.location.href = `mailto:adam@o7legal.com,ma@o7legal.com?subject=${sub}&body=${body}`;
+      window.location.href = `mailto:hi@o7legal.com?subject=${sub}&body=${body}`;
     }
     return false;
   }
